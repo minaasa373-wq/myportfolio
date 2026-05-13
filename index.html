@@ -1,0 +1,2054 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Day1前半・後半 / Day2前半・後半 / Day3前半・後半｜錬金術式AIブリーフィング 漫画UI版</title>
+  <style>
+    :root{
+      --bg0:#050505;
+      --bg1:#0b0b0f;
+      --bg2:#151116;
+      --paper:#15151b;
+      --paper2:#1d1d25;
+      --ink:#f0eef0;
+      --muted:#c6c0bd;
+      --sub:#9a9495;
+      --line:rgba(255,255,255,.12);
+      --red:#b3131b;
+      --red2:#ff4b57;
+      --gold:#d7b56d;
+      --gold2:#ffe2a0;
+      --blue:#6ea4ff;
+      --green:#78e0a0;
+      --warn:#ff9e67;
+      --shadow:0 22px 80px rgba(0,0,0,.52);
+      --radius:20px;
+      --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
+      --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Hiragino Sans","Noto Sans JP","Yu Gothic","Meiryo",sans-serif;
+      --serif:ui-serif,"Hiragino Mincho ProN","Yu Mincho","Noto Serif JP",serif;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      min-height:100vh;
+      color:var(--ink);
+      font-family:var(--sans);
+      background:
+        radial-gradient(900px 620px at 90% -10%, rgba(179,19,27,.34), transparent 62%),
+        radial-gradient(760px 520px at 8% 20%, rgba(215,181,109,.12), transparent 62%),
+        radial-gradient(720px 500px at 88% 92%, rgba(110,164,255,.09), transparent 62%),
+        linear-gradient(180deg,var(--bg0),var(--bg1) 48%,#050505);
+      overflow-x:hidden;
+    }
+
+    body::before{
+      content:"";
+      position:fixed;
+      inset:-20%;
+      z-index:0;
+      pointer-events:none;
+      opacity:.09;
+      background:
+        repeating-linear-gradient(100deg, rgba(255,255,255,.08) 0 1px, transparent 1px 22px),
+        linear-gradient(transparent 0 92%, rgba(255,255,255,.08) 92% 100%);
+      background-size:140px 100%, 100% 22px;
+      animation:rainDrift 22s linear infinite;
+    }
+    @keyframes rainDrift{
+      from{transform:translate3d(0,0,0)}
+      to{transform:translate3d(-120px,60px,0)}
+    }
+
+    .alchemyCircle{
+      position:fixed;
+      right:-180px;
+      top:90px;
+      width:560px;
+      height:560px;
+      border-radius:50%;
+      z-index:0;
+      pointer-events:none;
+      opacity:.13;
+      border:2px solid var(--gold);
+      box-shadow:
+        inset 0 0 0 50px rgba(215,181,109,.06),
+        inset 0 0 0 96px rgba(215,181,109,.05),
+        inset 0 0 0 160px rgba(179,19,27,.05);
+      animation:slowSpin 70s linear infinite;
+    }
+    .alchemyCircle::before,
+    .alchemyCircle::after{
+      content:"";
+      position:absolute;
+      inset:64px;
+      border:1px solid var(--gold);
+      transform:rotate(45deg);
+    }
+    .alchemyCircle::after{
+      inset:134px;
+      border-radius:50%;
+      transform:rotate(0);
+      box-shadow:0 0 0 80px rgba(215,181,109,.05);
+    }
+    @keyframes slowSpin{to{transform:rotate(360deg)}}
+
+    a{color:#cfe0ff}
+    img{display:block;max-width:100%}
+    button{font:inherit}
+
+    .app{
+      position:relative;
+      z-index:1;
+      width:min(1440px,calc(100% - 24px));
+      margin:18px auto 54px;
+      display:grid;
+      grid-template-columns:300px minmax(0,1fr) 260px;
+      gap:14px;
+      align-items:start;
+    }
+
+    .side,
+    .castRail{
+      position:sticky;
+      top:14px;
+      max-height:calc(100vh - 28px);
+      overflow:auto;
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.035));
+      box-shadow:0 18px 50px rgba(0,0,0,.35);
+      backdrop-filter:blur(14px);
+    }
+
+    .side{padding:14px}
+    .sideTitle{
+      font-family:var(--serif);
+      line-height:1.3;
+      font-size:20px;
+      font-weight:900;
+      margin:2px 4px 10px;
+      letter-spacing:.03em;
+    }
+    .sideMeta{
+      margin:0 4px 14px;
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.7;
+    }
+    .badgeRow{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin:0 4px 14px;
+    }
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:6px 9px;
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:999px;
+      background:rgba(0,0,0,.18);
+      color:#eee;
+      font-size:11px;
+      font-family:var(--mono);
+    }
+    .badge b{color:var(--red2)}
+
+    details{
+      border:1px solid rgba(255,255,255,.11);
+      border-radius:15px;
+      background:rgba(0,0,0,.20);
+      margin:10px 0;
+      overflow:hidden;
+    }
+    summary{
+      list-style:none;
+      cursor:pointer;
+      user-select:none;
+      padding:12px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      font-weight:900;
+      font-size:13px;
+    }
+    summary::-webkit-details-marker{display:none}
+    .chev{
+      width:10px;height:10px;
+      border-right:2px solid rgba(255,255,255,.8);
+      border-bottom:2px solid rgba(255,255,255,.8);
+      transform:rotate(45deg);
+      transition:.18s;
+    }
+    details[open] .chev{transform:rotate(-135deg)}
+    .menuLinks{
+      display:grid;
+      gap:8px;
+      padding:0 10px 12px;
+    }
+    .menuLinks a{
+      text-decoration:none;
+      color:#f2f2f4;
+      font-size:12px;
+      line-height:1.45;
+      padding:8px 10px;
+      border-radius:11px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.04);
+    }
+    .menuLinks a:hover{
+      background:rgba(179,19,27,.18);
+      border-color:rgba(255,75,87,.28);
+    }
+
+    main{
+      min-width:0;
+      border:1px solid var(--line);
+      border-radius:calc(var(--radius) + 8px);
+      background:linear-gradient(180deg,rgba(20,20,27,.97),rgba(27,27,36,.98));
+      box-shadow:var(--shadow);
+      overflow:hidden;
+      position:relative;
+    }
+    main::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      opacity:.75;
+      background:
+        radial-gradient(820px 380px at 12% 2%, rgba(255,75,87,.10), transparent 62%),
+        radial-gradient(560px 300px at 90% 5%, rgba(215,181,109,.10), transparent 64%),
+        linear-gradient(180deg,rgba(255,255,255,.025),transparent 24%);
+      mix-blend-mode:screen;
+    }
+    .content{
+      position:relative;
+      padding:22px clamp(14px,2.4vw,28px) 26px;
+    }
+
+    .hero{
+      position:relative;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.14);
+      border-radius:24px;
+      padding:18px;
+      background:
+        linear-gradient(135deg,rgba(179,19,27,.18),rgba(0,0,0,.22) 42%,rgba(215,181,109,.08)),
+        rgba(255,255,255,.045);
+      box-shadow:0 16px 42px rgba(0,0,0,.28);
+    }
+    .hero::after{
+      content:"CLASSIFIED / ALCHEMY FILE";
+      position:absolute;
+      right:-44px;
+      top:32px;
+      transform:rotate(24deg);
+      font-family:var(--mono);
+      font-size:11px;
+      letter-spacing:.18em;
+      color:rgba(255,226,160,.30);
+      border:1px solid rgba(255,226,160,.25);
+      padding:8px 52px;
+    }
+    .eyebrow{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      margin-bottom:10px;
+      padding:7px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(0,0,0,.22);
+      color:var(--gold2);
+      font:800 12px/1 var(--mono);
+      letter-spacing:.08em;
+    }
+    h1,h2,h3{line-height:1.35}
+    h1{
+      margin:0;
+      font-family:var(--serif);
+      font-size:clamp(24px,3vw,40px);
+      letter-spacing:.03em;
+    }
+    .lead{
+      margin:12px 0 0;
+      color:#dddce0;
+      line-height:1.9;
+      font-size:14px;
+    }
+    .themeStrip{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:16px;
+    }
+    .themePill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 11px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.13);
+      background:rgba(0,0,0,.24);
+      font-size:12px;
+      color:#f2f2f4;
+    }
+
+    .chapter{
+      margin-top:18px;
+      padding-top:18px;
+      border-top:1px solid rgba(255,255,255,.09);
+      scroll-margin-top:18px;
+    }
+    .chapter h2{
+      margin:0 0 10px;
+      font-family:var(--serif);
+      font-size:clamp(20px,2.2vw,28px);
+      letter-spacing:.02em;
+    }
+    .chapterLead{
+      margin:0 0 14px;
+      color:var(--muted);
+      line-height:1.85;
+      font-size:14px;
+    }
+
+    .mangaPanel{
+      position:relative;
+      border:1px solid rgba(255,255,255,.13);
+      border-radius:22px;
+      background:
+        linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.032)),
+        radial-gradient(520px 280px at 90% 0%, rgba(179,19,27,.12), transparent 60%);
+      box-shadow:0 18px 44px rgba(0,0,0,.22);
+      padding:16px;
+      overflow:hidden;
+      margin-top:14px;
+    }
+    .mangaPanel::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      opacity:.06;
+      background-image:
+        radial-gradient(circle at center, rgba(255,255,255,.9) 0 1px, transparent 1.5px);
+      background-size:10px 10px;
+    }
+    .panelLabel{
+      position:relative;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      margin-bottom:12px;
+      padding:7px 10px;
+      border-radius:999px;
+      background:rgba(179,19,27,.18);
+      border:1px solid rgba(255,75,87,.26);
+      color:#ffd6d9;
+      font:900 12px/1 var(--mono);
+      letter-spacing:.08em;
+    }
+
+    .dialogue{
+      position:relative;
+      display:grid;
+      gap:12px;
+    }
+    .line{
+      display:grid;
+      grid-template-columns:62px minmax(0,1fr);
+      gap:12px;
+      align-items:start;
+    }
+    .line.right{
+      grid-template-columns:minmax(0,1fr) 62px;
+    }
+    .line.right .face{grid-column:2}
+    .line.right .bubble{grid-column:1;grid-row:1;text-align:left}
+    .face{
+      width:62px;height:62px;
+      border-radius:18px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.18);
+      background:rgba(0,0,0,.28);
+      box-shadow:0 12px 26px rgba(0,0,0,.28);
+    }
+    .face img{width:100%;height:100%;object-fit:cover;object-position:center}
+    .bubble{
+      position:relative;
+      border:1px solid rgba(255,255,255,.13);
+      border-radius:18px;
+      padding:12px 13px;
+      background:rgba(0,0,0,.30);
+      box-shadow:0 10px 28px rgba(0,0,0,.18);
+    }
+    .line:not(.right) .bubble::before{
+      content:"";
+      position:absolute;
+      left:-7px;top:21px;
+      width:13px;height:13px;
+      background:rgba(0,0,0,.30);
+      border-left:1px solid rgba(255,255,255,.13);
+      border-bottom:1px solid rgba(255,255,255,.13);
+      transform:rotate(45deg);
+    }
+    .line.right .bubble::before{
+      content:"";
+      position:absolute;
+      right:-7px;top:21px;
+      width:13px;height:13px;
+      background:rgba(0,0,0,.30);
+      border-right:1px solid rgba(255,255,255,.13);
+      border-top:1px solid rgba(255,255,255,.13);
+      transform:rotate(45deg);
+    }
+    .speaker{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      margin-bottom:6px;
+      color:var(--gold2);
+      font-weight:900;
+      font-size:13px;
+    }
+    .roleTag{
+      color:#111;
+      background:var(--gold);
+      border-radius:999px;
+      padding:3px 7px;
+      font:900 10px/1 var(--mono);
+      white-space:nowrap;
+    }
+    .bubble p{
+      margin:0;
+      color:#f2f2f5;
+      font-size:14px;
+      line-height:1.85;
+    }
+    .bubble b{color:#fff}
+    .bubble .term{color:var(--gold2);font-weight:900}
+
+    .infoGrid{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:12px;
+      margin-top:14px;
+    }
+    .card{
+      border:1px solid rgba(255,255,255,.11);
+      border-radius:18px;
+      background:rgba(255,255,255,.045);
+      padding:13px;
+      box-shadow:0 12px 28px rgba(0,0,0,.16);
+    }
+    .card b{
+      display:block;
+      margin-bottom:7px;
+      color:#ff9ca5;
+      font-family:var(--mono);
+      font-size:12px;
+      letter-spacing:.06em;
+    }
+    .card p,.card li{
+      margin:0;
+      color:#e6e3e2;
+      line-height:1.78;
+      font-size:14px;
+    }
+    .card ul{margin:0;padding-left:1.15em}
+
+    .dangerPanel{
+      position:relative;
+      margin-top:14px;
+      border:1px solid rgba(255,75,87,.42);
+      border-radius:20px;
+      background:
+        linear-gradient(135deg,rgba(179,19,27,.22),rgba(0,0,0,.30)),
+        repeating-linear-gradient(135deg,rgba(255,75,87,.10) 0 10px,transparent 10px 20px);
+      padding:14px;
+      box-shadow:0 18px 44px rgba(179,19,27,.12);
+    }
+    .dangerPanel .title{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font:1000 13px/1 var(--mono);
+      letter-spacing:.10em;
+      color:#ffd7db;
+      text-transform:uppercase;
+    }
+    .dangerPanel p{
+      margin:9px 0 0;
+      color:#fff0f1;
+      line-height:1.8;
+      font-size:14px;
+    }
+
+    .flow{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:10px;
+      margin-top:14px;
+    }
+    .step{
+      border:1px solid rgba(255,255,255,.11);
+      border-radius:17px;
+      background:rgba(0,0,0,.22);
+      padding:12px;
+      min-height:150px;
+    }
+    .num{
+      width:32px;height:32px;
+      border-radius:10px;
+      display:grid;
+      place-items:center;
+      margin-bottom:9px;
+      background:var(--gold);
+      color:#111;
+      font-weight:1000;
+      font-family:var(--mono);
+    }
+    .step h3{
+      margin:0 0 7px;
+      color:#fff;
+      font-size:14px;
+    }
+    .step p{
+      margin:0;
+      color:var(--muted);
+      line-height:1.65;
+      font-size:13px;
+    }
+
+    .promptBox{
+      margin-top:12px;
+      padding:13px;
+      border-radius:16px;
+      border:1px solid rgba(110,164,255,.26);
+      background:#070b10;
+      color:#dcecff;
+      font-family:var(--mono);
+      font-size:12px;
+      line-height:1.7;
+      white-space:pre-wrap;
+      overflow:auto;
+    }
+    .copyRow{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      align-items:center;
+      margin-top:10px;
+      color:var(--sub);
+      font-size:12px;
+      flex-wrap:wrap;
+    }
+    .copyBtn{
+      border:1px solid rgba(215,181,109,.48);
+      background:linear-gradient(180deg,rgba(215,181,109,.20),rgba(179,19,27,.15));
+      color:#fff;
+      padding:9px 12px;
+      border-radius:12px;
+      cursor:pointer;
+      font-weight:900;
+    }
+
+    .castRail{padding:12px}
+    .castTitle{
+      margin:0 0 10px;
+      font-family:var(--serif);
+      font-weight:900;
+      font-size:17px;
+      line-height:1.35;
+    }
+    .standing{
+      position:relative;
+      border:1px solid rgba(255,255,255,.11);
+      border-radius:18px;
+      background:rgba(0,0,0,.24);
+      padding:10px;
+      margin-bottom:10px;
+      overflow:hidden;
+    }
+    .standing::after{
+      content:"";
+      position:absolute;
+      inset:auto 8px 8px 8px;
+      height:32%;
+      background:linear-gradient(180deg,transparent,rgba(0,0,0,.55));
+      pointer-events:none;
+    }
+    .standing img{
+      width:100%;
+      aspect-ratio:1/1;
+      object-fit:cover;
+      object-position:center;
+      border-radius:14px;
+      filter:drop-shadow(0 14px 20px rgba(0,0,0,.34));
+    }
+    .standingText{
+      position:relative;
+      z-index:1;
+      margin-top:8px;
+    }
+    .standingText b{display:block;font-size:13px}
+    .standingText span{display:block;color:var(--muted);font-size:11px;line-height:1.5}
+    .mission{
+      margin-top:12px;
+      padding:12px;
+      border-radius:16px;
+      border:1px solid rgba(255,75,87,.24);
+      background:rgba(179,19,27,.10);
+      color:#ffe7e9;
+      font-size:12px;
+      line-height:1.7;
+    }
+
+    .linkList ul{
+      margin:10px 0 0;
+      padding-left:1.2em;
+      line-height:1.8;
+      font-size:13px;
+      color:#e8e8ec;
+    }
+
+    footer{
+      margin-top:18px;
+      padding:16px 0 4px;
+      color:#9ea3af;
+      text-align:center;
+      font-size:12px;
+      line-height:1.7;
+      border-top:1px solid rgba(255,255,255,.08);
+    }
+
+    @media (max-width:1180px){
+      .app{grid-template-columns:280px minmax(0,1fr)}
+      .castRail{display:none}
+    }
+    @media (max-width:860px){
+      .app{grid-template-columns:1fr;margin-top:10px}
+      .side{position:relative;top:auto;max-height:none}
+      .infoGrid,.flow{grid-template-columns:1fr}
+      .line,.line.right{grid-template-columns:54px minmax(0,1fr)}
+      .line.right .face{grid-column:1}
+      .line.right .bubble{grid-column:2}
+      .line.right .bubble::before{
+        left:-7px;right:auto;
+        border-right:0;border-top:0;
+        border-left:1px solid rgba(255,255,255,.13);
+        border-bottom:1px solid rgba(255,255,255,.13);
+      }
+      .face{width:54px;height:54px;border-radius:16px}
+    }
+  </style>
+</head>
+<body>
+  <div class="alchemyCircle" aria-hidden="true"></div>
+
+  <div class="app">
+    <aside class="side">
+      <div class="sideTitle">Day1前半・後半 / Day2前半・後半 / Day3前半・後半<br>錬金術式AI育成ファイル</div>
+      <p class="sideMeta">Day1はAIと簿記自動化、Day2はCanvaと簿記AI、Day3は複式簿記・T字勘定・帳簿・伝票会計を漫画UIで初心者向けに再錬成した版。</p>
+      <div class="badgeRow">
+        <span class="badge">📁 <b>DAY1</b></span>
+        <span class="badge">⚖ <b>EQUIVALENT</b></span>
+        <span class="badge">⚠ <b>TABOO</b></span>
+        <span class="badge">📚 <b>NOTEBOOK</b></span>
+      </div>
+
+      <details>
+        <summary><span>Day1前半</span><i class="chev"></i></summary>
+        <div class="menuLinks">
+          <a href="#hero">トップ：3本動画を1つの錬成陣へ</a>
+          <a href="#sec1">1. 作戦会議：AIは魔法じゃない</a>
+          <a href="#sec2">2. AGI：真理の扉に近づくAI</a>
+          <a href="#sec3">3. 簿記AI：計算の錬成陣</a>
+          <a href="#sec4">4. Gemini×NotebookLM：知識の図書館</a>
+          <a href="#sec5">5. 禁忌警告：AI事故の正体</a>
+          <a href="#sec6">6. 今日の5分実践</a>
+          <a href="#sec7">7. 動画リンク一覧</a>
+        </div>
+      </details>
+
+      <details>
+        <summary><span>Day1後半</span><i class="chev"></i></summary>
+        <div class="menuLinks">
+          <a href="#day1b-hero">トップ：簿記基礎とAI自動入力</a>
+          <a href="#sec8">1. 簿記の目的と流れ</a>
+          <a href="#sec9">2. 財務三表：3つの魔導書</a>
+          <a href="#sec10">3. PL：期間の成績表</a>
+          <a href="#sec11">4. BS：瞬間のステータス画面</a>
+          <a href="#sec12">5. CF：現金の生存確認書</a>
+          <a href="#sec13">6. AI領収書入力：賢者の石チート</a>
+          <a href="#sec14">7. 今日の5分実践と動画リンク</a>
+        </div>
+      </details>
+
+      <details>
+        <summary><span>Day2前半</span><i class="chev"></i></summary>
+        <div class="menuLinks">
+          <a href="#day2a-hero">トップ：Canva自動錬金術</a>
+          <a href="#sec15">1. Canvaの正体</a>
+          <a href="#sec16">2. テンプレート錬成</a>
+          <a href="#sec17">3. 素材・図形・写真</a>
+          <a href="#sec18">4. 文字エフェクト</a>
+          <a href="#sec19">5. 商用利用の禁忌</a>
+          <a href="#sec20">6. 最新AI機能</a>
+          <a href="#sec21">7. 今日の5分実践と動画リンク</a>
+        </div>
+      </details>
+
+      <details>
+        <summary><span>Day2後半</span><i class="chev"></i></summary>
+        <div class="menuLinks">
+          <a href="#day2b-hero">トップ：簿記基礎とAI丸投げ事故</a>
+          <a href="#sec22">1. まず結論：AIの前に簿記</a>
+          <a href="#sec23">2. PLとBSの違い</a>
+          <a href="#sec24">3. AI自動化の強み</a>
+          <a href="#sec25">4. AI自動化の事故</a>
+          <a href="#sec26">5. 理解度チェック</a>
+          <a href="#sec27">6. 今日の5分実践と動画リンク</a>
+        </div>
+      </details>
+
+      <details>
+        <summary><span>Day3前半</span><i class="chev"></i></summary>
+        <div class="menuLinks">
+          <a href="#day3a-hero">トップ：複式簿記と転記</a>
+          <a href="#sec28">1. 単式簿記と複式簿記</a>
+          <a href="#sec29">2. 会計ソフトという自動書記</a>
+          <a href="#sec30">3. T字勘定</a>
+          <a href="#sec31">4. 転記と総勘定元帳</a>
+          <a href="#sec32">5. 理解度チェック</a>
+          <a href="#sec33">6. 今日の5分実践と動画リンク</a>
+        </div>
+      </details>
+
+      <details>
+        <summary><span>Day3後半</span><i class="chev"></i></summary>
+        <div class="menuLinks">
+          <a href="#day3b-hero">トップ：帳簿と伝票会計</a>
+          <a href="#sec34">1. 帳簿の全体像</a>
+          <a href="#sec35">2. 主要簿</a>
+          <a href="#sec36">3. 補助簿</a>
+          <a href="#sec37">4. 伝票会計</a>
+          <a href="#sec38">5. 入金・出金・振替伝票</a>
+          <a href="#sec39">6. 理解度チェック</a>
+          <a href="#sec40">7. 今日の5分実践と動画リンク</a>
+        </div>
+      </details>
+
+      <details>
+        <summary><span>画像ファイル名</span><i class="chev"></i></summary>
+        <div class="menuLinks">
+          <a href="javascript:void(0)">./edward.png</a>
+          <a href="javascript:void(0)">./alphonse.png</a>
+          <a href="javascript:void(0)">./hughes.png</a>
+          <a href="javascript:void(0)">./winry.png</a>
+        </div>
+      </details>
+    </aside>
+
+    <main>
+      <div class="content">
+        <section class="hero" id="hero">
+          <span class="eyebrow">DAY1 FRONT / MANGA UI REMAKE</span>
+          <h1>Day1前半｜AIは賢者の石じゃない。<br>錬成陣を描く人間が一番大事だ。</h1>
+          <p class="lead">
+            このページは、AGI（汎用人工知能＝人間のように幅広い知的作業をこなすAI）、簿記AI、Gemini×NotebookLM（資料を読ませて使うAIノート）を、AI初心者にも分かるように漫画風の会話で整理する教材だ。
+          </p>
+          <div class="themeStrip">
+            <span class="themePill">⚙️ 3本動画を1つの錬成陣へ</span>
+            <span class="themePill">⚖️ 等価交換＝便利さと責任の釣り合い</span>
+            <span class="themePill">⚠️ 禁忌＝丸投げ・盲信・情報漏えい</span>
+          </div>
+          <div class="dangerPanel">
+            <div class="title">⚠ TABOO WARNING / 禁忌警告</div>
+            <p>
+              AI（人工知能＝人間の知的作業を補助する技術）は、情報・文章・計算・資料整理を速くする。ただし、AIに倫理（やっていいか）、判断（採用していいか）、責任（誰が背負うか）まで渡すと危ない。
+            </p>
+          </div>
+        </section>
+
+        <section class="chapter" id="sec1">
+          <h2>1. 作戦会議：3本の動画を1つの錬成陣にする</h2>
+          <p class="chapterLead">動画の題材は違う。でも中心の問いは同じ。「AIにどこまで任せて、人間はどこで止めるのか」だ。</p>
+
+          <div class="mangaPanel">
+            <span class="panelLabel">SCENE 01 / 作戦会議</span>
+            <div class="dialogue">
+              <div class="line">
+                <div class="face"><img src="./edward.png" alt="エドワード"></div>
+                <div class="bubble">
+                  <div class="speaker">エドワード <span class="roleTag">ツッコミ役</span></div>
+                  <p>AGI、簿記、Gemini、NotebookLM……おいおい、素材がバラバラすぎるだろ。こんなの同じ錬成陣に乗るのか？</p>
+                </div>
+              </div>
+
+              <div class="line right">
+                <div class="face"><img src="./alphonse.png" alt="アルフォンス"></div>
+                <div class="bubble">
+                  <div class="speaker">アルフォンス <span class="roleTag">補足役</span></div>
+                  <p>大丈夫だよ兄さん。全部の根っこは同じなんだ。<span class="term">AIをどう使うか</span>と、<span class="term">人間がどこで責任を持つか</span>の話なんだ。</p>
+                </div>
+              </div>
+
+              <div class="line">
+                <div class="face"><img src="./hughes.png" alt="ヒューズ"></div>
+                <div class="bubble">
+                  <div class="speaker">ヒューズ <span class="roleTag">先生役</span></div>
+                  <p>よし、軍部式に整理しよう。AGIは「未来のリスク」、簿記AIは「実務の変化」、Gemini×NotebookLMは「今すぐ使える道具」だ。</p>
+                </div>
+              </div>
+
+              <div class="line right">
+                <div class="face"><img src="./winry.png" alt="ウインリー"></div>
+                <div class="bubble">
+                  <div class="speaker">ウインリー <span class="roleTag">初心者目線</span></div>
+                  <p>つまり、AI初心者は「すごそう！」で終わらせずに、「何に使えて、どこが危ないか」をセットで覚えればいいってことね。</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="infoGrid">
+            <div class="card">
+              <b>AGI</b>
+              <p>AGI（汎用人工知能＝人間のように幅広い知的作業をこなすAI）は、AIが「単なる道具」から「自分で考えて動く補助者」に近づく話。</p>
+            </div>
+            <div class="card">
+              <b>簿記AI</b>
+              <p>簿記（会社のお金の動きを記録・整理する仕事）は、AIによる自動化が進みやすい。ただし、最後の判断は人間が必要。</p>
+            </div>
+            <div class="card">
+              <b>Gemini × NotebookLM</b>
+              <p>Gemini（GoogleのAI）とNotebookLM（資料を読み込ませて質問できるAIノート）は、知識整理と資料活用の武器になる。</p>
+            </div>
+            <div class="card">
+              <b>COMMON CORE</b>
+              <p>共通テーマは「AIに任せる範囲」と「人間が握る範囲」の切り分け。ここが曖昧だと、便利な錬金術が禁忌になる。</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="chapter" id="sec2">
+          <h2>2. AGI：真理の扉に近づくAI</h2>
+          <p class="chapterLead">AGIの話は、AIの進化が便利さだけでなくリスクも大きくする、というパートだ。</p>
+
+          <div class="mangaPanel">
+            <span class="panelLabel">SCENE 02 / 真理の扉</span>
+            <div class="dialogue">
+              <div class="line">
+                <div class="face"><img src="./edward.png" alt="エドワード"></div>
+                <div class="bubble">
+                  <div class="speaker">エドワード <span class="roleTag">ツッコミ役</span></div>
+                  <p>AGIって、要するに「何でもできるAI」ってことか？ それ、便利を通り越して怖くないか？</p>
+                </div>
+              </div>
+
+              <div class="line right">
+                <div class="face"><img src="./hughes.png" alt="ヒューズ"></div>
+                <div class="bubble">
+                  <div class="speaker">ヒューズ <span class="roleTag">先生役</span></div>
+                  <p>その感覚は正しい。AGI（汎用人工知能）は、文章・調査・計画・判断補助みたいな幅広い作業をこなすAIのことだ。能力が伸びるほど、制御の重要性も上がる。</p>
+                </div>
+              </div>
+
+              <div class="line">
+                <div class="face"><img src="./alphonse.png" alt="アルフォンス"></div>
+                <div class="bubble">
+                  <div class="speaker">アルフォンス <span class="roleTag">補足役</span></div>
+                  <p>たとえるなら、AIが真理の扉に近づいている状態だね。でも、扉の向こう側を全部開けていいわけじゃない。</p>
+                </div>
+              </div>
+
+              <div class="line right">
+                <div class="face"><img src="./winry.png" alt="ウインリー"></div>
+                <div class="bubble">
+                  <div class="speaker">ウインリー <span class="roleTag">初心者目線</span></div>
+                  <p>じゃあ初心者は何を覚えればいいの？ 「AIすごい」で終わると、絶対あぶない気がするんだけど。</p>
+                </div>
+              </div>
+
+              <div class="line">
+                <div class="face"><img src="./hughes.png" alt="ヒューズ"></div>
+                <div class="bubble">
+                  <div class="speaker">ヒューズ <span class="roleTag">先生役</span></div>
+                  <p>覚えるべきは3つだ。<b>目的を決める</b>、<b>禁止事項を決める</b>、<b>人間が確認する</b>。この3つがAI時代の基本装備だ。</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flow">
+            <div class="step"><div class="num">1</div><h3>目的</h3><p>AIに何を達成させたいかを人間が決める。</p></div>
+            <div class="step"><div class="num">2</div><h3>制約</h3><p>やっていいこと・やってはいけないことを先に書く。</p></div>
+            <div class="step"><div class="num">3</div><h3>監査</h3><p>AIが出した答えを、根拠と照合する。</p></div>
+            <div class="step"><div class="num">4</div><h3>停止</h3><p>危ない処理は、人間承認なしに進ませない。</p></div>
+          </div>
+
+          <div class="dangerPanel">
+            <div class="title">⚠ 禁忌：目的だけ達成するAI</div>
+            <p>AIが「成果だけ」を優先すると、人間の意図からズレる可能性がある。だから、AIへの指示には「何をしてはいけないか」まで書く必要がある。</p>
+          </div>
+        </section>
+
+        <section class="chapter" id="sec3">
+          <h2>3. 簿記AI：計算の錬成陣になる</h2>
+          <p class="chapterLead">簿記AIの話は、仕事が消えるかどうかではなく、仕事の中身がどう変わるかを見るパートだ。</p>
+
+          <div class="mangaPanel">
+            <span class="panelLabel">SCENE 03 / 会計錬成</span>
+            <div class="dialogue">
+              <div class="line">
+                <div class="face"><img src="./winry.png" alt="ウインリー"></div>
+                <div class="bubble">
+                  <div class="speaker">ウインリー <span class="roleTag">実務サポート</span></div>
+                  <p>簿記って、仕訳（取引を借方・貸方に分けて記録すること）とか集計が多いでしょ？ そこはAIと相性よさそう。</p>
+                </div>
+              </div>
+
+              <div class="line right">
+                <div class="face"><img src="./edward.png" alt="エドワード"></div>
+                <div class="bubble">
+                  <div class="speaker">エドワード <span class="roleTag">ツッコミ役</span></div>
+                  <p>じゃあ簿記担当は終わりか？ 全部AIにやらせればいい、って話になるのか？</p>
+                </div>
+              </div>
+
+              <div class="line">
+                <div class="face"><img src="./hughes.png" alt="ヒューズ"></div>
+                <div class="bubble">
+                  <div class="speaker">ヒューズ <span class="roleTag">先生役</span></div>
+                  <p>そこが早とちりだ。AIは候補を作るのは得意だが、法規制（守るべき法律や会計ルール）、社内事情、例外処理、責任ある説明までは人間が握る。</p>
+                </div>
+              </div>
+
+              <div class="line right">
+                <div class="face"><img src="./alphonse.png" alt="アルフォンス"></div>
+                <div class="bubble">
+                  <div class="speaker">アルフォンス <span class="roleTag">補足役</span></div>
+                  <p>AIは機械鎧（補助装置）みたいなものだね。力は強いけど、どこへ進むかを決めるのは使う人だよ。</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="infoGrid">
+            <div class="card">
+              <b>AIが得意</b>
+              <ul>
+                <li>仕訳候補の作成</li>
+                <li>大量データの集計</li>
+                <li>異常値の発見</li>
+                <li>月次レポートの下書き</li>
+              </ul>
+            </div>
+            <div class="card">
+              <b>人間が必要</b>
+              <ul>
+                <li>取引の実態確認</li>
+                <li>会計ルールとの照合</li>
+                <li>不正・違和感の察知</li>
+                <li>説明責任と最終判断</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="promptBox" id="prompt-boki">あなたは簿記3級レベルの学習補助AIです。
+以下の取引について、仕訳候補を出してください。
+
+【取引内容】
+ここに取引内容を書く
+
+【出力形式】
+1. 借方 / 金額
+2. 貸方 / 金額
+3. 判断理由
+4. 注意点
+5. 人間が確認すべき証憑（領収書・請求書など）
+
+【制約】
+・不明点は推測で断定しない
+・税務や会計ルールが関わる場合は「要確認」と書く
+・初心者にも分かる言葉で説明する</div>
+          <div class="copyRow">
+            <span>簿記AIに丸投げしないための安全プロンプト。</span>
+            <button class="copyBtn" data-copy="prompt-boki">コピー</button>
+          </div>
+        </section>
+
+        <section class="chapter" id="sec4">
+          <h2>4. Gemini×NotebookLM：自分専用の知識錬成陣</h2>
+          <p class="chapterLead">GeminiとNotebookLMは、資料を使って自分専用のAI環境を作る話だ。</p>
+
+          <div class="mangaPanel">
+            <span class="panelLabel">SCENE 04 / 中央図書館</span>
+            <div class="dialogue">
+              <div class="line">
+                <div class="face"><img src="./winry.png" alt="ウインリー"></div>
+                <div class="bubble">
+                  <div class="speaker">ウインリー <span class="roleTag">初心者目線</span></div>
+                  <p>GeminiとNotebookLMって、どっちもAIでしょ？ 何が違うの？</p>
+                </div>
+              </div>
+
+              <div class="line right">
+                <div class="face"><img src="./alphonse.png" alt="アルフォンス"></div>
+                <div class="bubble">
+                  <div class="speaker">アルフォンス <span class="roleTag">補足役</span></div>
+                  <p>Gemini（GoogleのAI）は広く考える助手。NotebookLM（資料を読み込ませて質問できるAIノート）は、入れた資料をもとに答える司書さんだよ。</p>
+                </div>
+              </div>
+
+              <div class="line">
+                <div class="face"><img src="./edward.png" alt="エドワード"></div>
+                <div class="bubble">
+                  <div class="speaker">エドワード <span class="roleTag">ツッコミ役</span></div>
+                  <p>つまり、Geminiが「発想の錬成炉」、NotebookLMが「原典に戻る図書館」ってことか。</p>
+                </div>
+              </div>
+
+              <div class="line right">
+                <div class="face"><img src="./hughes.png" alt="ヒューズ"></div>
+                <div class="bubble">
+                  <div class="speaker">ヒューズ <span class="roleTag">先生役</span></div>
+                  <p>その通り。実務では、NotebookLMで資料の要点を固め、Geminiで説明文や資料構成へ変換する。最後に元資料で確認する。この流れが強い。</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flow">
+            <div class="step"><div class="num">1</div><h3>資料投入</h3><p>PDF、議事録、マニュアル、動画メモを集める。</p></div>
+            <div class="step"><div class="num">2</div><h3>NotebookLM</h3><p>資料に基づいて要約・質問回答させる。</p></div>
+            <div class="step"><div class="num">3</div><h3>Gemini</h3><p>説明文・表・研修資料へ整える。</p></div>
+            <div class="step"><div class="num">4</div><h3>原典確認</h3><p>数字・制度・固有名詞を元資料で確認する。</p></div>
+          </div>
+
+          <div class="promptBox" id="prompt-notebook">この資料だけを根拠にして、
+1) 重要ポイント
+2) 注意点
+3) 実務で使える手順
+4) 不明点
+5) 原典確認が必要な箇所
+に分けて整理して。
+資料に書かれていないことは「資料内に記載なし」と書いて。</div>
+          <div class="copyRow">
+            <span>NotebookLM向けの安全質問。</span>
+            <button class="copyBtn" data-copy="prompt-notebook">コピー</button>
+          </div>
+        </section>
+
+        <section class="chapter" id="sec5">
+          <h2>5. 禁忌警告：AI事故の正体</h2>
+          <p class="chapterLead">AI事故の多くは、AIが悪魔だから起きるんじゃない。人間が等価交換を忘れたときに起きる。</p>
+
+          <div class="mangaPanel">
+            <span class="panelLabel">SCENE 05 / 禁忌の錬成陣</span>
+            <div class="dialogue">
+              <div class="line">
+                <div class="face"><img src="./edward.png" alt="エドワード"></div>
+                <div class="bubble">
+                  <div class="speaker">エドワード <span class="roleTag">ツッコミ役</span></div>
+                  <p>AIの答えって、それっぽいから怖いんだよな。間違ってても堂々としてる。</p>
+                </div>
+              </div>
+
+              <div class="line right">
+                <div class="face"><img src="./winry.png" alt="ウインリー"></div>
+                <div class="bubble">
+                  <div class="speaker">ウインリー <span class="roleTag">実務サポート</span></div>
+                  <p>だから検品が必要なのよ。機械鎧だって、調整なしで戦場に出したら危ないでしょ。</p>
+                </div>
+              </div>
+
+              <div class="line">
+                <div class="face"><img src="./hughes.png" alt="ヒューズ"></div>
+                <div class="bubble">
+                  <div class="speaker">ヒューズ <span class="roleTag">先生役</span></div>
+                  <p>禁忌は4つだ。<b>盲信</b>、<b>丸投げ</b>、<b>情報漏えい</b>、<b>責任不在</b>。この4つを避ければ、AI活用はかなり安全になる。</p>
+                </div>
+              </div>
+
+              <div class="line right">
+                <div class="face"><img src="./alphonse.png" alt="アルフォンス"></div>
+                <div class="bubble">
+                  <div class="speaker">アルフォンス <span class="roleTag">補足役</span></div>
+                  <p>AIは下書きを作る係。完成品として認めるかどうかは、人間が決める。それが等価交換だね。</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="infoGrid">
+            <div class="card"><b>禁忌01 / 盲信</b><p>AIの答えをそのまま信じる。最短で信用が燃える。</p></div>
+            <div class="card"><b>禁忌02 / 丸投げ</b><p>目的・制約・判断基準なしで投げる。結果がズレる。</p></div>
+            <div class="card"><b>禁忌03 / 情報漏えい</b><p>社外秘や個人情報を雑に入れる。便利さより事故が先に来る。</p></div>
+            <div class="card"><b>禁忌04 / 責任不在</b><p>「AIが言ったから」で済ませる。実務では通らない。</p></div>
+          </div>
+
+          <div class="dangerPanel">
+            <div class="title">⚠ 最重要ルール</div>
+            <p>AIは「完成品を出す係」ではなく、「完成品の手前まで爆速で持ってくる係」。最後の品質保証は人間がやる。</p>
+          </div>
+
+          <div class="promptBox" id="prompt-check">以下のAI回答について、
+1) 事実
+2) 推測
+3) 原典確認が必要な点
+4) 実務で使う前のリスク
+5) 人間が最終判断すべき点
+に分けて整理して。
+不明な点は「不明」と書き、断定しないで。</div>
+          <div class="copyRow">
+            <span>AIの回答を検品するためのチェックプロンプト。</span>
+            <button class="copyBtn" data-copy="prompt-check">コピー</button>
+          </div>
+        </section>
+
+        <section class="chapter" id="sec6">
+          <h2>6. 今日の5分実践</h2>
+          <p class="chapterLead">見るだけで終わると、ただの賢者の石ごっこになる。小さく使って、確認までやる。</p>
+
+          <div class="flow">
+            <div class="step"><div class="num">1</div><h3>開く</h3><p>ChatGPTかGeminiを開く。</p></div>
+            <div class="step"><div class="num">2</div><h3>聞く</h3><p>「AGI、簿記AI、NotebookLMを等価交換の比喩で説明して」と入れる。</p></div>
+            <div class="step"><div class="num">3</div><h3>分ける</h3><p>「事実・推測・要確認に分けて」と追加する。</p></div>
+            <div class="step"><div class="num">4</div><h3>戻る</h3><p>怪しい固有名詞や制度を1つ選び、原典で確認する。</p></div>
+          </div>
+
+          <div class="mangaPanel">
+            <span class="panelLabel">SCENE 06 / 今日の一手</span>
+            <div class="dialogue">
+              <div class="line">
+                <div class="face"><img src="./hughes.png" alt="ヒューズ"></div>
+                <div class="bubble">
+                  <div class="speaker">ヒューズ <span class="roleTag">先生役</span></div>
+                  <p>実践の狙いは「使う → 疑う → 原典に戻る → 自分の判断で直す」だ。この4手ができれば、AIはかなり強い道具になる。</p>
+                </div>
+              </div>
+
+              <div class="line right">
+                <div class="face"><img src="./edward.png" alt="エドワード"></div>
+                <div class="bubble">
+                  <div class="speaker">エドワード <span class="roleTag">ツッコミ役</span></div>
+                  <p>結局、AIを使う人間が鍛えられてないとダメってことだな。楽はできるけど、責任までは消えない。</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="chapter linkList" id="sec7">
+          <h2>7. 動画リンク一覧</h2>
+          <p class="chapterLead">Day1前半の素材リンク。HTML内に残しておくと、研修や見返しで迷子にならない。</p>
+          <ul>
+            <li>動画1：AGIとAI進化の話<br><a href="https://www.youtube.com/watch?v=xfwiwOtNn-I&list=PLoQApr14fceMq5RwAMqB1rWxjqWfdf9Kg&index=1&pp=iAQB" target="_blank" rel="noopener noreferrer">https://www.youtube.com/watch?v=xfwiwOtNn-I&list=PLoQApr14fceMq5RwAMqB1rWxjqWfdf9Kg&index=1&pp=iAQB</a></li>
+            <li>動画2：簿記とAIの未来<br><a href="https://www.youtube.com/watch?v=PSpM8snrOz4&list=PLoQApr14fceMq5RwAMqB1rWxjqWfdf9Kg&index=2&pp=iAQB" target="_blank" rel="noopener noreferrer">https://www.youtube.com/watch?v=PSpM8snrOz4&list=PLoQApr14fceMq5RwAMqB1rWxjqWfdf9Kg&index=2&pp=iAQB</a></li>
+            <li>動画3：GeminiとNotebookLMの活用<br><a href="https://www.youtube.com/watch?v=1INqlD-Hw78&list=PLoQApr14fceMq5RwAMqB1rWxjqWfdf9Kg&index=3&pp=iAQB" target="_blank" rel="noopener noreferrer">https://www.youtube.com/watch?v=1INqlD-Hw78&list=PLoQApr14fceMq5RwAMqB1rWxjqWfdf9Kg&index=3&pp=iAQB</a></li>
+          </ul>
+        </section>
+
+
+        <section class="hero" id="day1b-hero" style="margin-top:22px;">
+          <span class="eyebrow">DAY1 BACK / BOOKKEEPING ALCHEMY FILE</span>
+          <h1>Day1後半｜簿記の基礎理論を知らずに、AIへ丸投げするな。</h1>
+          <p class="lead">
+            Day1後半は、簿記（会社のお金の動きを記録・整理するルール）の全体像、財務三表（会社の状態を見る3つの成績表）、そしてAIによる領収書・通帳データ化をつなげる回だ。
+            AIは手作業を爆速で減らす賢者の石みたいに見える。でも、会計の基本を知らずに使うと、等価交換の法則を無視した錬成失敗になる。
+          </p>
+          <div class="themeStrip">
+            <span class="themePill">🧾 簿記＝会社の記録ルール</span>
+            <span class="themePill">📊 財務三表＝PL・BS・CF</span>
+            <span class="themePill">🤖 AI入力＝下書き自動錬成</span>
+            <span class="themePill">⚖️ 人間＝最終チェック担当</span>
+          </div>
+          <div class="dangerPanel">
+            <div class="title">⚠ TABOO WARNING / 基礎なしAI丸投げ禁止</div>
+            <p>
+              AIに領収書や通帳を読ませれば、Excel（表計算ソフト）化はかなり楽になる。だが、AIが読み取った数字・日付・税区分・インボイス（消費税の仕入税額控除に関わる制度）をそのまま信じると危ない。
+              AIは入力係。簿記の知識を持つ人間が検算係だ。
+            </p>
+          </div>
+        </section>
+
+        <section class="chapter" id="sec8">
+          <h2>8. 簿記の目的と流れ：錬金術の基礎理論とレシピ</h2>
+          <p class="chapterLead">簿記は、会社のお金の動きを記録して、投資家・銀行・経営者に「会社の状態」を報告するためのルールだ。</p>
+
+          <div class="mangaPanel">
+            <span class="panelLabel">SCENE 07 / 簿記の基礎理論</span>
+            <div class="dialogue">
+              <div class="line">
+                <div class="face"><img src="./edward.png" alt="エドワード"></div>
+                <div class="bubble">
+                  <div class="speaker">エドワード <span class="roleTag">ツッコミ役</span></div>
+                  <p>簿記って聞くと、仕訳を暗記する苦行って感じがするんだが……何のためにやるんだ？</p>
+                </div>
+              </div>
+
+              <div class="line right">
+                <div class="face"><img src="./hughes.png" alt="ヒューズ"></div>
+                <div class="bubble">
+                  <div class="speaker">ヒューズ <span class="roleTag">先生役</span></div>
+                  <p>簿記は、会社の成績表を作るための記録術だ。投資家や銀行、つまり支援者に「この会社は健全か」を見せるための軍部報告書みたいなものだな。</p>
+                </div>
+              </div>
+
+              <div class="line">
+                <div class="face"><img src="./winry.png" alt="ウインリー"></div>
+                <div class="bubble">
+                  <div class="speaker">ウインリー <span class="roleTag">初心者目線</span></div>
+                  <p>じゃあ仕訳（取引を借方・貸方に分ける記録）は、最終報告書を作るための材料メモってこと？</p>
+                </div>
+              </div>
+
+              <div class="line right">
+                <div class="face"><img src="./alphonse.png" alt="アルフォンス"></div>
+                <div class="bubble">
+                  <div class="speaker">アルフォンス <span class="roleTag">補足役</span></div>
+                  <p>そうだね。毎日の取引を仕訳で記録して、それを集計して、最後に財務諸表（会社の成績表）へまとめる。小さな錬成陣を積み上げて大きな報告書を作るんだ。</p>
+                </div>
+              </div>
+
+              <div class="line">
+                <div class="face"><img src="./edward.png" alt="エドワード"></div>
+                <div class="bubble">
+                  <div class="speaker">エドワード <span class="roleTag">ツッコミ役</span></div>
+                  <p>つまり、仕訳だけ見てると迷子になる。最終的に財務諸表を作るための下ごしらえだと見ればいいわけか。</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flow">
+            <div class="step"><div class="num">1</div><h3>取引発生</h3><p>売上、仕入、支払いなど会社のお金の動きが起きる。</p></div>
+            <div class="step"><div class="num">2</div><h3>仕訳</h3><p>借方・貸方に分けて、会計ルール通りに記録する。</p></div>
+            <div class="step"><div class="num">3</div><h3>集計</h3><p>記録をまとめて、科目ごとの残高や損益を確認する。</p></div>
+            <div class="step"><div class="num">4</div><h3>財務諸表</h3><p>PL・BS・CFなど、会社の成績表として報告する。</p></div>
+          </div>
+
+          <div class="dangerPanel">
+            <div class="title">⚠ 迷子ポイント</div>
+            <p>仕訳だけを暗記すると、自分が全体のどの工程にいるか分からなくなる。簿記初心者は、常に「最終的な成績表を作るための材料整理をしている」と考えると折れにくい。</p>
+          </div>
+        </section>
+
+        <section class="chapter" id="sec9">
+          <h2>9. 財務三表：会社の状態を丸裸にする3つの魔導書</h2>
+          <p class="chapterLead">会社を見るには、利益だけでは足りない。期間の成績、現在の財産、現金の動きを分けて見る必要がある。</p>
+
+          <div class="mangaPanel">
+            <span class="panelLabel">SCENE 08 / 三つの魔導書</span>
+            <div class="dialogue">
+              <div class="line">
+                <div class="face"><img src="./winry.png" alt="ウインリー"></div>
+                <div class="bubble">
+                  <div class="speaker">ウインリー <span class="roleTag">初心者目線</span></div>
+                  <p>財務三表って、PL、BS、CFの3つよね。名前がもう呪文なんだけど、初心者はどう覚えればいい？</p>
+                </div>
+              </div>
+
+              <div class="line right">
+                <div class="face"><img src="./hughes.png" alt="ヒューズ"></div>
+                <div class="bubble">
+                  <div class="speaker">ヒューズ <span class="roleTag">先生役</span></div>
+                  <p>PL（損益計算書）は期間の成績表、BS（貸借対照表）は現在のステータス画面、CF（キャッシュフロー計算書）は現金の生存確認書だ。</p>
+                </div>
+              </div>
+
+              <div class="line">
+                <div class="face"><img src="./edward.png" alt="エドワード"></div>
+                <div class="bubble">
+                  <div class="speaker">エドワード <span class="roleTag">ツッコミ役</span></div>
+                  <p>利益だけ見て「勝った！」って言っても、現金が尽きたら終わりってことか。等価交換のバグじゃねえか。</p>
+                </div>
+              </div>
+
+              <div class="line right">
+                <div class="face"><img src="./alphonse.png" alt="アルフォンス"></div>
+                <div class="bubble">
+                  <div class="speaker">アルフォンス <span class="roleTag">補足役</span></div>
+                  <p>黒字倒産（利益は出ているのに現金不足で倒産すること）もあるから、PLだけじゃなくCFも見る必要があるんだね。</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="infoGrid">
+            <div class="card"><b>PL / 損益計算書</b><p>1年間など一定期間で、いくら稼いで、いくら使って、いくら利益が残ったかを見る「期間の成績表」。</p></div>
+            <div class="card"><b>BS / 貸借対照表</b><p>ある時点で、財産・借金・自己資本がどれくらいあるかを見る「瞬間のステータス画面」。</p></div>
+            <div class="card"><b>CF / キャッシュフロー計算書</b><p>現金がどこから入り、どこへ出ていったかを見る「現金の生存確認書」。</p></div>
+            <div class="card"><b>3つをセットで見る理由</b><p>利益、財産、現金は別物。1つだけ見ると会社の状態を読み間違える。</p></div>
+          </div>
+        </section>
+
+        <section class="chapter" id="sec10">
+          <h2>10. PL：損益計算書は「期間の成績表」</h2>
+          <p class="chapterLead">PLは、会社が一定期間でどれだけ稼ぎ、どれだけ使い、どれだけ利益を残したかを見る書類だ。</p>
+
+          <div class="mangaPanel">
+            <span class="panelLabel">SCENE 09 / 期間の成績表</span>
+            <div class="dialogue">
+              <div class="line"><div class="face"><img src="./hughes.png" alt="ヒューズ"></div><div class="bubble"><div class="speaker">ヒューズ <span class="roleTag">先生役</span></div><p>PLは、売上から費用を引いて利益を見る書類だ。たとえば1年間でどれだけ稼いだかを確認する。</p></div></div>
+              <div class="line right"><div class="face"><img src="./edward.png" alt="エドワード"></div><div class="bubble"><div class="speaker">エドワード <span class="roleTag">ツッコミ役</span></div><p>成績表なら分かる。売上が高くても、材料費や人件費で吹っ飛んだら利益は残らないってことだな。</p></div></div>
+              <div class="line"><div class="face"><img src="./winry.png" alt="ウインリー"></div><div class="bubble"><div class="speaker">ウインリー <span class="roleTag">実務サポート</span></div><p>AIにレシートや領収書を読ませる時も、費用の種類が雑だとPLの見え方が崩れるのよ。入力ミスは成績表の歪みになる。</p></div></div>
+            </div>
+          </div>
+
+          <div class="infoGrid">
+            <div class="card"><b>売上</b><p>商品やサービスを売って得た収入。</p></div>
+            <div class="card"><b>費用</b><p>売上を得るために使ったお金。材料費、人件費、広告費など。</p></div>
+            <div class="card"><b>利益</b><p>売上から費用を引いて残った成果。</p></div>
+            <div class="card"><b>AIで注意</b><p>領収書の内容をAIが誤読すると、費用分類がズレてPLの見方もズレる。</p></div>
+          </div>
+        </section>
+
+        <section class="chapter" id="sec11">
+          <h2>11. BS：貸借対照表は「瞬間のステータス画面」</h2>
+          <p class="chapterLead">BSは、ある時点で会社が何を持ち、何を借り、どれだけ自分の資本があるかを見る書類だ。</p>
+
+          <div class="mangaPanel">
+            <span class="panelLabel">SCENE 10 / ステータス画面</span>
+            <div class="dialogue">
+              <div class="line"><div class="face"><img src="./alphonse.png" alt="アルフォンス"></div><div class="bubble"><div class="speaker">アルフォンス <span class="roleTag">補足役</span></div><p>BSは、会社の現在の持ち物リストみたいなものだね。資産（持っているもの）、負債（返す必要があるもの）、純資産（自分側のお金）を見るんだ。</p></div></div>
+              <div class="line right"><div class="face"><img src="./edward.png" alt="エドワード"></div><div class="bubble"><div class="speaker">エドワード <span class="roleTag">ツッコミ役</span></div><p>RPGのステータス画面だな。装備は多いけど借金まみれ、みたいな状態も分かるわけか。</p></div></div>
+              <div class="line"><div class="face"><img src="./hughes.png" alt="ヒューズ"></div><div class="bubble"><div class="speaker">ヒューズ <span class="roleTag">先生役</span></div><p>その通り。PLで利益が出ていても、BSを見ると借入が重い、回収できない売掛金が多い、という問題が見えることもある。</p></div></div>
+            </div>
+          </div>
+
+          <div class="flow">
+            <div class="step"><div class="num">資</div><h3>資産</h3><p>現金、預金、売掛金、商品、建物など会社が持つもの。</p></div>
+            <div class="step"><div class="num">負</div><h3>負債</h3><p>借入金、買掛金など、将来返す必要があるもの。</p></div>
+            <div class="step"><div class="num">純</div><h3>純資産</h3><p>会社に残っている自己資本。</p></div>
+            <div class="step"><div class="num">見</div><h3>見方</h3><p>資産が多くても、負債も多ければ安心とは限らない。</p></div>
+          </div>
+        </section>
+
+        <section class="chapter" id="sec12">
+          <h2>12. CF：キャッシュフロー計算書は「現金の生存確認書」</h2>
+          <p class="chapterLead">CFは、実際の現金の出入りを見る書類だ。利益と現金は同じではない。</p>
+
+          <div class="mangaPanel">
+            <span class="panelLabel">SCENE 11 / 生存確認</span>
+            <div class="dialogue">
+              <div class="line"><div class="face"><img src="./winry.png" alt="ウインリー"></div><div class="bubble"><div class="speaker">ウインリー <span class="roleTag">実務サポート</span></div><p>PLで利益が出てるなら安心じゃないの？</p></div></div>
+              <div class="line right"><div class="face"><img src="./hughes.png" alt="ヒューズ"></div><div class="bubble"><div class="speaker">ヒューズ <span class="roleTag">先生役</span></div><p>そこが罠だ。売上を計上しても、入金がまだなら現金は増えていない。支払いが先に来れば、黒字でも現金が尽きることがある。</p></div></div>
+              <div class="line"><div class="face"><img src="./edward.png" alt="エドワード"></div><div class="bubble"><div class="speaker">エドワード <span class="roleTag">ツッコミ役</span></div><p>帳簿上は勝ってるのに、財布が空で倒れるってことか。えげつない等価交換だな。</p></div></div>
+              <div class="line right"><div class="face"><img src="./alphonse.png" alt="アルフォンス"></div><div class="bubble"><div class="speaker">アルフォンス <span class="roleTag">補足役</span></div><p>だからCFで、手元の現金が本当に増えているかを見るんだね。</p></div></div>
+            </div>
+          </div>
+
+          <div class="dangerPanel">
+            <div class="title">⚠ 黒字倒産に注意</div>
+            <p>PL（利益）だけを見てCF（現金の動き）を見落とすと、帳簿上は黒字でも現金不足で倒れる。AIで集計しても、現金の確認は必ず残す。</p>
+          </div>
+        </section>
+
+        <section class="chapter" id="sec13">
+          <h2>13. AI領収書入力：賢者の石を使ったチート技</h2>
+          <p class="chapterLead">領収書や通帳をスマホで撮り、AIに読み取らせてExcel化する。これは手作業を減らす強力な方法だが、最終チェックは必須だ。</p>
+
+          <div class="mangaPanel">
+            <span class="panelLabel">SCENE 12 / 自動入力の錬成</span>
+            <div class="dialogue">
+              <div class="line"><div class="face"><img src="./winry.png" alt="ウインリー"></div><div class="bubble"><div class="speaker">ウインリー <span class="roleTag">実務サポート</span></div><p>スマホで領収書や通帳を撮って、AIに読ませれば表にできる。これは本当に時短になるわ。</p></div></div>
+              <div class="line right"><div class="face"><img src="./edward.png" alt="エドワード"></div><div class="bubble"><div class="speaker">エドワード <span class="roleTag">ツッコミ役</span></div><p>それ、完全にチートじゃねえか。手入力が消えるなら最高だろ。</p></div></div>
+              <div class="line"><div class="face"><img src="./hughes.png" alt="ヒューズ"></div><div class="bubble"><div class="speaker">ヒューズ <span class="roleTag">先生役</span></div><p>ただし、AIの読み取りは完璧ではない。日付、金額、店名、消費税区分、インボイス判定は誤る可能性がある。検算なしで使うな。</p></div></div>
+              <div class="line right"><div class="face"><img src="./alphonse.png" alt="アルフォンス"></div><div class="bubble"><div class="speaker">アルフォンス <span class="roleTag">補足役</span></div><p>AIは下書きの錬成が得意。でも、完成品として帳簿に入れていいかは人間が見る。ここは前半のAI活用と同じだね。</p></div></div>
+            </div>
+          </div>
+
+          <div class="flow">
+            <div class="step"><div class="num">1</div><h3>撮影</h3><p>領収書・通帳・明細をスマホで見やすく撮る。</p></div>
+            <div class="step"><div class="num">2</div><h3>AI読取</h3><p>Geminiなどへ渡し、日付・金額・内容を表にする。</p></div>
+            <div class="step"><div class="num">3</div><h3>Excel化</h3><p>表形式で貼り付け、CSVやExcelへ整える。</p></div>
+            <div class="step"><div class="num">4</div><h3>人間確認</h3><p>数字、税区分、重複、読み間違いを確認する。</p></div>
+          </div>
+
+          <div class="infoGrid">
+            <div class="card"><b>ジェム</b><p>Geminiで自分専用の決まった指示を使いやすくする仕組み。毎回同じ読み取りルールを使う自動人形みたいなもの。</p></div>
+            <div class="card"><b>インボイス</b><p>消費税の仕入税額控除に関わる制度。登録番号や税率などの確認が必要で、AI任せは危険。</p></div>
+            <div class="card"><b>AIが得意</b><p>大量の領収書から日付・金額・店名らしき情報を抜き出し、表にする下書き作成。</p></div>
+            <div class="card"><b>人間が必要</b><p>薄い文字、手書き、税区分、重複、勘定科目の妥当性を確認すること。</p></div>
+          </div>
+
+          <div class="promptBox" id="prompt-receipt">以下の領収書・通帳画像または文字起こしをもとに、会計入力用の表を作って。
+
+【出力形式】
+日付 / 支払先 / 内容 / 金額 / 消費税区分 / インボイス確認 / 勘定科目候補 / 要確認メモ
+
+【ルール】
+・読めない箇所は推測せず「要確認」と書く
+・金額、日付、税区分は必ず要確認欄にも注意を書く
+・インボイス判定は断定せず、根拠がなければ「要確認」とする
+・最後に人間が確認すべきポイントを箇条書きで出す</div>
+          <div class="copyRow">
+            <span>AI領収書入力用の安全プロンプト。</span>
+            <button class="copyBtn" data-copy="prompt-receipt">コピー</button>
+          </div>
+        </section>
+
+        <section class="chapter linkList" id="sec14">
+          <h2>14. 今日の5分実践と動画リンク</h2>
+          <p class="chapterLead">Day1後半は、簿記の全体像を見てからAI入力を試す。基礎理論なしの自動化は禁忌だ。</p>
+
+          <div class="mangaPanel">
+            <span class="panelLabel">SCENE 13 / 今日の選択</span>
+            <div class="dialogue">
+              <div class="line"><div class="face"><img src="./hughes.png" alt="ヒューズ"></div><div class="bubble"><div class="speaker">ヒューズ <span class="roleTag">先生役</span></div><p>先に身につけるべきは、会計の基本ルールだ。PL、BS、CFの意味を知れば、AIの出力を検品できる。</p></div></div>
+              <div class="line right"><div class="face"><img src="./edward.png" alt="エドワード"></div><div class="bubble"><div class="speaker">エドワード <span class="roleTag">ツッコミ役</span></div><p>AI操作だけ先に覚えると、錬成は速いけど失敗品かどうか分からないってことだな。</p></div></div>
+              <div class="line"><div class="face"><img src="./winry.png" alt="ウインリー"></div><div class="bubble"><div class="speaker">ウインリー <span class="roleTag">実務サポート</span></div><p>でも操作スキルも大事よ。おすすめは、PL・BS・CFの意味をざっくり押さえてから、AI入力で手作業を減らす流れね。</p></div></div>
+            </div>
+          </div>
+
+          <div class="flow">
+            <div class="step"><div class="num">1</div><h3>PL</h3><p>売上、費用、利益の関係を1つ説明できるようにする。</p></div>
+            <div class="step"><div class="num">2</div><h3>BS</h3><p>資産、負債、純資産の違いをざっくり言えるようにする。</p></div>
+            <div class="step"><div class="num">3</div><h3>CF</h3><p>利益と現金が違うことを覚える。</p></div>
+            <div class="step"><div class="num">4</div><h3>AI入力</h3><p>領収書1枚だけAIに表化させ、人間が検算する。</p></div>
+          </div>
+
+          <div class="dangerPanel">
+            <div class="title">⚠ 結論</div>
+            <p>順番は「会計の基本ルール → AI操作スキル」が安全。AIは面倒な入力を減らすが、正しいかどうかを判断するのは簿記の知識を持った人間だ。</p>
+          </div>
+
+          <ul>
+            <li>動画1：簿記の目的と流れ<br><a href="https://www.youtube.com/watch?v=pQrxmzrDR1c&list=PLoQApr14fceOrvKv_r8fDIfpRFwkY_QTC&index=1&pp=iAQB" target="_blank" rel="noopener noreferrer">https://www.youtube.com/watch?v=pQrxmzrDR1c&list=PLoQApr14fceOrvKv_r8fDIfpRFwkY_QTC&index=1&pp=iAQB</a></li>
+            <li>動画2：財務三表の基礎<br><a href="https://www.youtube.com/watch?v=ydenauRwjS0&list=PLoQApr14fceOrvKv_r8fDIfpRFwkY_QTC&index=2&pp=iAQB" target="_blank" rel="noopener noreferrer">https://www.youtube.com/watch?v=ydenauRwjS0&list=PLoQApr14fceOrvKv_r8fDIfpRFwkY_QTC&index=2&pp=iAQB</a></li>
+            <li>動画3：AIによる領収書・通帳入力<br><a href="https://www.youtube.com/watch?v=ohBnhlh5vMY&list=PLoQApr14fceOrvKv_r8fDIfpRFwkY_QTC&index=3&pp=iAQB" target="_blank" rel="noopener noreferrer">https://www.youtube.com/watch?v=ohBnhlh5vMY&list=PLoQApr14fceOrvKv_r8fDIfpRFwkY_QTC&index=3&pp=iAQB</a></li>
+          </ul>
+        </section>
+
+
+
+        <section class="hero" id="day2a-hero" style="margin-top:22px;">
+          <span class="eyebrow">DAY2 FRONT / CANVA DESIGN ALCHEMY FILE</span>
+          <h1>Day2前半｜Canvaは、デザイン素人でも使える自動錬金術ツールだ。</h1>
+          <p class="lead">
+            Day2前半は、Canva（キャンバ＝ブラウザやアプリで使えるデザイン作成ツール）を、初心者向けに錬金術風で整理する回だ。
+            Canvaはゼロから絵を描く道具ではなく、テンプレート（完成済みの土台）、素材（写真・図形・イラスト）、文字エフェクト（影やフチ取りなどの特殊効果）を組み合わせて、ポスター・資料・チラシ・SNS画像を素早く作る道具だ。
+          </p>
+          <div class="themeStrip">
+            <span class="themePill">🎨 Canva＝自動デザイン錬成</span>
+            <span class="themePill">🧩 テンプレート＝完成済み錬成陣</span>
+            <span class="themePill">✨ AI機能＝面倒作業の自動化</span>
+            <span class="themePill">⚠️ 商用利用＝規約確認必須</span>
+          </div>
+          <div class="dangerPanel">
+            <div class="title">⚠ TABOO WARNING / 素材そのまま商用利用に注意</div>
+            <p>Canvaの素材は便利だが、写真やイラストを「素材そのもの」として売ったり、1枚だけそのまま商用利用したりすると規約違反のリスクがある。文字・図形・写真・色・構成を組み合わせ、自分のデザインとして加工して使う。この一手がデザイン錬成の等価交換だ。</p>
+          </div>
+        </section>
+
+        <section class="chapter" id="sec15">
+          <h2>15. Canvaの正体：素人でも形にできるデザイン錬成陣</h2>
+          <p class="chapterLead">Canvaは、デザイン知識ゼロの人でも、テンプレートや素材を組み合わせるだけで見栄えのする成果物を作れる実務ツールだ。</p>
+          <div class="mangaPanel">
+            <span class="panelLabel">SCENE 14 / デザイン錬成の入口</span>
+            <div class="dialogue">
+              <div class="line"><div class="face"><img src="./edward.png" alt="エドワード"></div><div class="bubble"><div class="speaker">エドワード <span class="roleTag">ツッコミ役</span></div><p>Canvaって、要するにデザイン版の錬成陣か？ 絵が描けないやつでも使えるのかよ。</p></div></div>
+              <div class="line right"><div class="face"><img src="./winry.png" alt="ウインリー"></div><div class="bubble"><div class="speaker">ウインリー <span class="roleTag">実務サポート</span></div><p>使えるわ。Canvaは、テンプレート（完成済みの土台）を選んで、文字や写真を差し替えるだけでかなり形になるの。工具箱として見れば分かりやすいわね。</p></div></div>
+              <div class="line"><div class="face"><img src="./alphonse.png" alt="アルフォンス"></div><div class="bubble"><div class="speaker">アルフォンス <span class="roleTag">補足役</span></div><p>ゼロから絵を描くんじゃなくて、用意された材料を組み合わせるんだね。錬金術で言えば、すでに整った材料庫と錬成陣がある状態だよ。</p></div></div>
+              <div class="line right"><div class="face"><img src="./hughes.png" alt="ヒューズ"></div><div class="bubble"><div class="speaker">ヒューズ <span class="roleTag">先生役</span></div><p>軍部式に言えば、Canvaの価値は「誰でも最低限の見た目まで持っていける標準装備」だ。プロの代替というより、素人の初速を一気に上げる道具だな。</p></div></div>
+            </div>
+          </div>
+          <div class="infoGrid">
+            <div class="card"><b>Canva</b><p>ブラウザやアプリで使えるデザイン作成ツール。資料、チラシ、SNS投稿、ポスターなどを作りやすい。</p></div>
+            <div class="card"><b>初心者向きの理由</b><p>白紙から作らなくても、完成済みテンプレートを選んで文字や画像を差し替えられる。</p></div>
+            <div class="card"><b>使いどころ</b><p>社内資料、案内チラシ、SNS画像、サムネイル、イベント告知、簡易ポスター。</p></div>
+            <div class="card"><b>注意点</b><p>テンプレをそのまま使いすぎると、他人と似た見た目になる。自分の文字・色・構成に変える。</p></div>
+          </div>
+        </section>
+
+        <section class="chapter" id="sec16">
+          <h2>16. テンプレート：完成済みの錬成陣を選ぶ</h2>
+          <p class="chapterLead">テンプレートは、すでにレイアウトや配色が組まれたデザインの土台だ。ここを選べば8割は進む。</p>
+          <div class="mangaPanel">
+            <span class="panelLabel">SCENE 15 / テンプレート錬成</span>
+            <div class="dialogue">
+              <div class="line"><div class="face"><img src="./winry.png" alt="ウインリー"></div><div class="bubble"><div class="speaker">ウインリー <span class="roleTag">実務サポート</span></div><p>Canva初心者は、まずテンプレートを選ぶのが一番早いわ。ポスター、チラシ、SNS投稿みたいに用途から選べるの。</p></div></div>
+              <div class="line right"><div class="face"><img src="./edward.png" alt="エドワード"></div><div class="bubble"><div class="speaker">エドワード <span class="roleTag">ツッコミ役</span></div><p>白紙から作らなくていいのは助かるな。真っ白な画面って、地味に恐怖だぞ。</p></div></div>
+              <div class="line"><div class="face"><img src="./hughes.png" alt="ヒューズ"></div><div class="bubble"><div class="speaker">ヒューズ <span class="roleTag">先生役</span></div><p>重要なのは「好み」より「用途」だ。告知なら大きな見出し、資料なら読みやすさ、SNSなら一瞬で伝わる視線誘導を優先する。</p></div></div>
+              <div class="line right"><div class="face"><img src="./alphonse.png" alt="アルフォンス"></div><div class="bubble"><div class="speaker">アルフォンス <span class="roleTag">補足役</span></div><p>テンプレートは完成品じゃなくて下書きだね。そこに自分の情報を入れて、ちゃんと再錬成するのが大事なんだ。</p></div></div>
+            </div>
+          </div>
+          <div class="flow">
+            <div class="step"><div class="num">1</div><h3>用途を決める</h3><p>SNS、チラシ、資料、ポスターなど、作る物を先に決める。</p></div>
+            <div class="step"><div class="num">2</div><h3>テンプレ選択</h3><p>見た目の好みより、目的に合う構成を選ぶ。</p></div>
+            <div class="step"><div class="num">3</div><h3>文字差し替え</h3><p>見出し、説明、日付、場所、CTA（行動を促す文）を入れる。</p></div>
+            <div class="step"><div class="num">4</div><h3>自分色に変える</h3><p>色、写真、図形を変えてオリジナル化する。</p></div>
+          </div>
+        </section>
+
+        <section class="chapter" id="sec17">
+          <h2>17. 素材・図形・写真：画面に置く材料を選ぶ</h2>
+          <p class="chapterLead">Canvaの素材は、写真・アイコン・図形・イラストなどの材料だ。材料選びが雑だと、完成品も雑になる。</p>
+          <div class="mangaPanel"><span class="panelLabel">SCENE 16 / 材料庫</span><div class="dialogue">
+            <div class="line"><div class="face"><img src="./edward.png" alt="エドワード"></div><div class="bubble"><div class="speaker">エドワード <span class="roleTag">ツッコミ役</span></div><p>素材って、写真とか図形とかアイコンのことだよな？ これを置けばそれっぽくなるのか？</p></div></div>
+            <div class="line right"><div class="face"><img src="./winry.png" alt="ウインリー"></div><div class="bubble"><div class="speaker">ウインリー <span class="roleTag">実務サポート</span></div><p>置けばいいってものじゃないわ。素材は材料。料理と同じで、入れすぎると味が濁るの。主役の文字を邪魔しない素材を選ぶのが大事。</p></div></div>
+            <div class="line"><div class="face"><img src="./alphonse.png" alt="アルフォンス"></div><div class="bubble"><div class="speaker">アルフォンス <span class="roleTag">補足役</span></div><p>AIが図形やイメージを作ってくれる機能もあるけど、出力をそのまま信じず、変な形や不自然な部分がないか見た方がいいね。</p></div></div>
+          </div></div>
+          <div class="infoGrid">
+            <div class="card"><b>写真</b><p>雰囲気を一気に作る材料。背景が強すぎると文字が読みにくくなる。</p></div>
+            <div class="card"><b>図形</b><p>見出しの背景、囲み、矢印、区切り線として便利。情報整理に強い。</p></div>
+            <div class="card"><b>アイコン</b><p>意味を一瞬で伝える小さな記号。使いすぎると騒がしくなる。</p></div>
+            <div class="card"><b>AI生成素材</b><p>「猫の顔の図形」などを作れる場合がある。便利だが、形崩れや意図ズレは確認が必要。</p></div>
+          </div>
+        </section>
+
+        <section class="chapter" id="sec18">
+          <h2>18. 文字エフェクト：読ませるための特殊効果</h2>
+          <p class="chapterLead">エフェクトは、文字に影・フチ取り・湾曲・装飾などをつける機能だ。強調には便利だが、やりすぎると読みにくくなる。</p>
+          <div class="mangaPanel"><span class="panelLabel">SCENE 17 / 文字の錬成</span><div class="dialogue">
+            <div class="line"><div class="face"><img src="./winry.png" alt="ウインリー"></div><div class="bubble"><div class="speaker">ウインリー <span class="roleTag">実務サポート</span></div><p>文字エフェクトは、影やフチ取りで文字を読みやすくする機能よ。背景写真の上に文字を置く時は特に便利。</p></div></div>
+            <div class="line right"><div class="face"><img src="./edward.png" alt="エドワード"></div><div class="bubble"><div class="speaker">エドワード <span class="roleTag">ツッコミ役</span></div><p>じゃあ全部の文字を光らせて、フチつけて、ド派手にすれば最強だな！</p></div></div>
+            <div class="line"><div class="face"><img src="./hughes.png" alt="ヒューズ"></div><div class="bubble"><div class="speaker">ヒューズ <span class="roleTag">先生役</span></div><p>却下だ。エフェクトは強調するためのものだ。全部を強調すると、何も強調されない。軍令も赤字だらけなら誰も読まん。</p></div></div>
+          </div></div>
+          <div class="infoGrid">
+            <div class="card"><b>影</b><p>背景と文字を分けて読みやすくする。写真の上に文字を置く時に便利。</p></div>
+            <div class="card"><b>フチ取り</b><p>文字の輪郭を作り、視認性を上げる。サムネイルやポスター向き。</p></div>
+            <div class="card"><b>湾曲・装飾</b><p>雰囲気を出せるが、本文に使いすぎると読みにくい。</p></div>
+            <div class="card"><b>鉄則</b><p>見出しだけ強く、本文は読みやすく。これが初心者の安全運用。</p></div>
+          </div>
+        </section>
+
+        <section class="chapter" id="sec19">
+          <h2>19. 商用利用の禁忌：素材をそのまま売るな</h2>
+          <p class="chapterLead">Canvaは商用利用できる場面があるが、素材そのものの再配布や、ほぼ無加工の販売は危険だ。</p>
+          <div class="mangaPanel"><span class="panelLabel">SCENE 18 / 規約の禁忌</span><div class="dialogue">
+            <div class="line"><div class="face"><img src="./edward.png" alt="エドワード"></div><div class="bubble"><div class="speaker">エドワード <span class="roleTag">ツッコミ役</span></div><p>Canva素材って便利だけど、商用利用していいのか？ 金が絡むと急に怖いぞ。</p></div></div>
+            <div class="line right"><div class="face"><img src="./hughes.png" alt="ヒューズ"></div><div class="bubble"><div class="speaker">ヒューズ <span class="roleTag">先生役</span></div><p>安全側で考えろ。素材を1枚だけそのまま売る、素材そのものとして配る、テンプレを無加工に近い形で販売する。こういう使い方は禁忌になりやすい。</p></div></div>
+            <div class="line"><div class="face"><img src="./winry.png" alt="ウインリー"></div><div class="bubble"><div class="speaker">ウインリー <span class="roleTag">実務サポート</span></div><p>文字を入れる、複数素材を組み合わせる、色や配置を変える。ちゃんと自分のデザインとして加工するのが大事ね。</p></div></div>
+          </div></div>
+          <div class="dangerPanel"><div class="title">⚠ 商用利用チェック</div><p>商用利用（お金儲けや事業で使うこと）では、素材の利用条件を確認する。特に、素材単体を再配布・販売しないこと、テンプレートをそのまま売らないこと、最終デザインに自分の編集を入れることが安全側の基本だ。</p></div>
+        </section>
+
+        <section class="chapter" id="sec20">
+          <h2>20. 最新AI機能：マジックレイヤーと高画質化</h2>
+          <p class="chapterLead">CanvaのAI機能は、面倒な切り抜き・分解・補正を自動化してくれる。ただし、仕上がり確認は人間がやる。</p>
+          <div class="mangaPanel"><span class="panelLabel">SCENE 19 / 最新魔導書</span><div class="dialogue">
+            <div class="line"><div class="face"><img src="./alphonse.png" alt="アルフォンス"></div><div class="bubble"><div class="speaker">アルフォンス <span class="roleTag">補足役</span></div><p>マジックレイヤーは、1枚の画像をAIが人物・背景・文字みたいに分解して、後から動かしやすくする機能だね。</p></div></div>
+            <div class="line right"><div class="face"><img src="./edward.png" alt="エドワード"></div><div class="bubble"><div class="speaker">エドワード <span class="roleTag">ツッコミ役</span></div><p>画像の分解の錬金術かよ。便利すぎるだろ。</p></div></div>
+            <div class="line"><div class="face"><img src="./winry.png" alt="ウインリー"></div><div class="bubble"><div class="speaker">ウインリー <span class="roleTag">実務サポート</span></div><p>高画質化は、粗い画像をAIで補正して綺麗にする機能ね。でも、細部が歪むことがあるから確認は必須よ。</p></div></div>
+            <div class="line right"><div class="face"><img src="./hughes.png" alt="ヒューズ"></div><div class="bubble"><div class="speaker">ヒューズ <span class="roleTag">先生役</span></div><p>プリントショップも重要だ。作ったデザインをTシャツやチラシとして印刷注文できる。画面上の錬成物を現物に変える出口だな。</p></div></div>
+          </div></div>
+          <div class="infoGrid">
+            <div class="card"><b>プリントショップ</b><p>作ったデザインをTシャツ、チラシ、ポスターなどとして印刷注文できる機能。</p></div>
+            <div class="card"><b>マジックレイヤー</b><p>1枚の写真をAIが人物・背景・文字などに分解し、後から位置やサイズを変えやすくする機能。</p></div>
+            <div class="card"><b>高画質化</b><p>粗い画像をAIが補正して、より綺麗に見せる機能。</p></div>
+            <div class="card"><b>リスク</b><p>AIの自動処理は、背景の歪み、細部の破綻、不自然な補正が起きることがある。</p></div>
+          </div>
+          <div class="dangerPanel"><div class="title">⚠ AI処理の過信禁止</div><p>マジックレイヤーや高画質化は便利だが、完全ではない。AI処理後は、人物の輪郭、文字の崩れ、背景の歪み、印刷時の粗さを人間が確認する。</p></div>
+          <div class="promptBox" id="prompt-canva-check">以下のCanvaデザイン案を、初心者にも分かるようにチェックして。
+
+【確認したいこと】
+1. 文字は読みやすいか
+2. 写真や素材が多すぎないか
+3. 見出しが一瞬で伝わるか
+4. 商用利用で注意すべき素材がないか
+5. AI加工による不自然な歪みがありそうな箇所
+6. 修正案を3つ
+
+専門用語はカッコで意味を添えて、断定できない部分は「要確認」と書いて。</div>
+          <div class="copyRow"><span>Canvaデザイン確認用の安全プロンプト。</span><button class="copyBtn" data-copy="prompt-canva-check">コピー</button></div>
+        </section>
+
+        <section class="chapter linkList" id="sec21">
+          <h2>21. 今日の5分実践と動画リンク</h2>
+          <p class="chapterLead">Canvaは触って覚えるのが一番早い。まずはテンプレを1つ選び、文字と写真を差し替えて、AI機能は最後に確認しながら使う。</p>
+          <div class="mangaPanel"><span class="panelLabel">SCENE 20 / どの錬金術を武器にするか</span><div class="dialogue">
+            <div class="line"><div class="face"><img src="./hughes.png" alt="ヒューズ"></div><div class="bubble"><div class="speaker">ヒューズ <span class="roleTag">先生役</span></div><p>Day1で事務と会計の自動化を見た。Day2ではデザインの自動化だ。どちらも本質は同じ、AIやツールに下書きを作らせ、人間が仕上げる。</p></div></div>
+            <div class="line right"><div class="face"><img src="./winry.png" alt="ウインリー"></div><div class="bubble"><div class="speaker">ウインリー <span class="roleTag">実務サポート</span></div><p>Canvaを武器にするなら、まずは「見出し」「写真」「余白」の3つだけ見るといいわ。細かい装飾は後でいいの。</p></div></div>
+            <div class="line"><div class="face"><img src="./edward.png" alt="エドワード"></div><div class="bubble"><div class="speaker">エドワード <span class="roleTag">ツッコミ役</span></div><p>つまり、デザインも等価交換か。テンプレで時間を得る代わりに、規約確認と最終チェックを払うわけだな。</p></div></div>
+          </div></div>
+          <div class="flow">
+            <div class="step"><div class="num">1</div><h3>テンプレ選択</h3><p>チラシかSNS投稿のテンプレを1つ選ぶ。</p></div>
+            <div class="step"><div class="num">2</div><h3>文字変更</h3><p>見出しと説明文を自分の内容に差し替える。</p></div>
+            <div class="step"><div class="num">3</div><h3>素材変更</h3><p>写真・図形・色を1つ以上変えて独自性を出す。</p></div>
+            <div class="step"><div class="num">4</div><h3>確認</h3><p>規約、読みやすさ、AI加工の不自然さを確認する。</p></div>
+          </div>
+          <div class="dangerPanel"><div class="title">⚠ 結論</div><p>Canvaは、デザイン素人でも成果物を作れる強力な自動錬金術ツールだ。ただし、テンプレやAI機能は完成品ではなく下書き。商用利用の規約確認と、人間の最終調整が必要だ。</p></div>
+          <ul>
+            <li>動画1：Canvaの基礎<br><a href="https://www.youtube.com/watch?v=nRds9qeaLiM&list=PLoQApr14fceOEbJCJt0DoAntyJv4U7VS5&index=1&t=3s&pp=iAQB" target="_blank" rel="noopener noreferrer">https://www.youtube.com/watch?v=nRds9qeaLiM&list=PLoQApr14fceOEbJCJt0DoAntyJv4U7VS5&index=1&t=3s&pp=iAQB</a></li>
+            <li>動画2：Canvaの最新アップデート<br><a href="https://www.youtube.com/watch?v=uumr0BVAJE4&list=PLoQApr14fceOEbJCJt0DoAntyJv4U7VS5&index=2&pp=iAQB" target="_blank" rel="noopener noreferrer">https://www.youtube.com/watch?v=uumr0BVAJE4&list=PLoQApr14fceOEbJCJt0DoAntyJv4U7VS5&index=2&pp=iAQB</a></li>
+          </ul>
+        </section>
+
+
+
+        <section class="hero" id="day2b-hero" style="margin-top:22px;">
+          <span class="eyebrow">DAY2 BACK / BOOKKEEPING CHECK FILE</span>
+          <h1>Day2後半｜AIに丸投げする前に、簿記の基礎を読め。</h1>
+          <p class="lead">
+            Day2後半は、簿記（会社のお金の動きを記録・整理するルール）とAI自動化を、さらに初心者向けに噛み砕く回だ。
+            AIは領収書や通帳を読み取って、Excel（表計算ソフト）入力を爆速で減らせる。
+            でも、PL（損益計算書）やBS（貸借対照表）の意味を知らないままAIの数字を信じると、間違いに気づけず大事故になる。
+          </p>
+          <div class="themeStrip">
+            <span class="themePill">📊 簿記＝会社の状態を見る基本ルール</span>
+            <span class="themePill">💰 PL＝1年間の儲けを見る成績表</span>
+            <span class="themePill">🏦 BS＝今の財産と借金を見るステータス</span>
+            <span class="themePill">🤖 AI＝入力作業を減らす道具</span>
+          </div>
+          <div class="dangerPanel">
+            <div class="title">⚠ TABOO WARNING / 数字の盲信禁止</div>
+            <p>
+              AIは超便利だが、完璧ではない。簿記の基礎を知らない人間がAIの出した数字を盲信すると、
+              間違った成績表を作り、税務署や銀行へデタラメな報告を出す危険がある。
+              AIは作業係。人間は検算係。ここを逆にするな。
+            </p>
+          </div>
+        </section>
+
+        <section class="chapter" id="sec22">
+          <h2>22. まず結論：AIの前に簿記の最低限を押さえる</h2>
+          <p class="chapterLead">この3本の動画の芯は、「AIに面倒な作業を任せたいなら、人間が簿記の基本ルールを知っていないと危ない」という話だ。</p>
+
+          <div class="mangaPanel">
+            <span class="panelLabel">SCENE 21 / AI丸投げ前の作戦会議</span>
+            <div class="dialogue">
+              <div class="line">
+                <div class="face"><img src="./edward.png" alt="エドワード"></div>
+                <div class="bubble">
+                  <div class="speaker">エドワード <span class="roleTag">ツッコミ役</span></div>
+                  <p>また簿記の動画かよ。Day1後半でもやっただろ。何を追加で見るんだ？</p>
+                </div>
+              </div>
+              <div class="line right">
+                <div class="face"><img src="./hughes.png" alt="ヒューズ"></div>
+                <div class="bubble">
+                  <div class="speaker">ヒューズ <span class="roleTag">先生役</span></div>
+                  <p>今回はもっと基礎だ。AIへ丸投げする前に、PLとBSの役割を理解しているか確認する。ここを外すと、AIが間違えても気づけない。</p>
+                </div>
+              </div>
+              <div class="line">
+                <div class="face"><img src="./winry.png" alt="ウインリー"></div>
+                <div class="bubble">
+                  <div class="speaker">ウインリー <span class="roleTag">実務サポート</span></div>
+                  <p>AIは領収書や通帳を読み取って表にするのは得意よ。でも、その表が正しいかどうかは、会計の見方を知らないと判断できないの。</p>
+                </div>
+              </div>
+              <div class="line right">
+                <div class="face"><img src="./alphonse.png" alt="アルフォンス"></div>
+                <div class="bubble">
+                  <div class="speaker">アルフォンス <span class="roleTag">補足役</span></div>
+                  <p>つまり、AIは賢者の石みたいに見えるけど、使う人が錬金術の基礎を知らないと危険なんだね。</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="infoGrid">
+            <div class="card"><b>簿記</b><p>会社のお金の動きを記録して、会社の状態を正しく見るためのルール。</p></div>
+            <div class="card"><b>財務三表</b><p>会社の状態を確認する成績表。代表的にはPL、BS、CFがある。</p></div>
+            <div class="card"><b>AI自動化</b><p>領収書や通帳などを読み取り、Excel入力などの手作業を減らす仕組み。</p></div>
+            <div class="card"><b>人間の役割</b><p>AIが作った数字や分類を確認し、間違いを修正すること。</p></div>
+          </div>
+        </section>
+
+        <section class="chapter" id="sec23">
+          <h2>23. PLとBSの違い：期間の成績表と瞬間のステータス画面</h2>
+          <p class="chapterLead">会社が「この1年間でいくら儲かったか」を知りたいならPLを見る。会社が「今どれだけ財産と借金を持っているか」を知りたいならBSを見る。</p>
+          <div class="mangaPanel"><span class="panelLabel">SCENE 22 / 2つの魔導書</span><div class="dialogue">
+            <div class="line"><div class="face"><img src="./winry.png" alt="ウインリー"></div><div class="bubble"><div class="speaker">ウインリー <span class="roleTag">初心者目線</span></div><p>「1年間でいくら儲かったか」を見るなら、PLとBSのどっちを見るの？</p></div></div>
+            <div class="line right"><div class="face"><img src="./edward.png" alt="エドワード"></div><div class="bubble"><div class="speaker">エドワード <span class="roleTag">回答役</span></div><p>それはPLだな。PLは損益計算書、つまり売上から費用を引いて、利益を見る成績表だろ？</p></div></div>
+            <div class="line"><div class="face"><img src="./hughes.png" alt="ヒューズ"></div><div class="bubble"><div class="speaker">ヒューズ <span class="roleTag">先生役</span></div><p>正解だ。PL（損益計算書）は一定期間の儲けを見る。BS（貸借対照表）は、ある時点の資産・負債・純資産を見る。ここは初心者が最初に覚える分岐点だ。</p></div></div>
+            <div class="line right"><div class="face"><img src="./alphonse.png" alt="アルフォンス"></div><div class="bubble"><div class="speaker">アルフォンス <span class="roleTag">補足役</span></div><p>PLは「今年どれだけ成果が出たか」。BSは「今どんな状態か」。時間の見方が違うんだね。</p></div></div>
+          </div></div>
+          <div class="infoGrid">
+            <div class="card"><b>PL / 損益計算書</b><p>一定期間の売上、費用、利益を見る書類。例：「この1年間でいくら儲かったか」。</p></div>
+            <div class="card"><b>BS / 貸借対照表</b><p>ある時点の資産、負債、純資産を見る書類。例：「今、財産と借金がどれくらいあるか」。</p></div>
+            <div class="card"><b>初心者の覚え方</b><p>儲けを見たいならPL。持ち物と借金を見たいならBS。</p></div>
+            <div class="card"><b>AIで大事な理由</b><p>AIが作った表の数字が、PLに入る話なのか、BSに入る話なのかを判断する必要がある。</p></div>
+          </div>
+          <div class="dangerPanel"><div class="title">⚠ 理解度チェックの答え</div><p>会社が「この1年間でいくら儲かったか」を確認したい時に読むべき魔導書は、<b>PL（損益計算書）</b>だ。BSではない。</p></div>
+        </section>
+
+        <section class="chapter" id="sec24">
+          <h2>24. AI自動化の強み：面倒な入力を爆速で減らす</h2>
+          <p class="chapterLead">AIは、領収書や通帳の画像を読み取り、日付・金額・内容を表にする作業が得意だ。手入力の時間を大きく減らせる。</p>
+          <div class="mangaPanel"><span class="panelLabel">SCENE 23 / 賢者の石チート</span><div class="dialogue">
+            <div class="line"><div class="face"><img src="./edward.png" alt="エドワード"></div><div class="bubble"><div class="speaker">エドワード <span class="roleTag">ツッコミ役</span></div><p>領収書をスマホで撮ってAIに食わせるだけで、Excel入力が終わるって、もう反則だろ。</p></div></div>
+            <div class="line right"><div class="face"><img src="./winry.png" alt="ウインリー"></div><div class="bubble"><div class="speaker">ウインリー <span class="roleTag">実務サポート</span></div><p>反則級に便利なのは本当よ。日付、金額、支払先、内容を表にする下書きはかなり時短になるわ。</p></div></div>
+            <div class="line"><div class="face"><img src="./alphonse.png" alt="アルフォンス"></div><div class="bubble"><div class="speaker">アルフォンス <span class="roleTag">補足役</span></div><p>電卓を叩いたり、手でExcelに入力したりするアナログ作業を減らせるんだね。</p></div></div>
+            <div class="line right"><div class="face"><img src="./hughes.png" alt="ヒューズ"></div><div class="bubble"><div class="speaker">ヒューズ <span class="roleTag">先生役</span></div><p>だが、忘れるな。AIは「入力を楽にする道具」だ。「正しい会計判断を保証する道具」ではない。</p></div></div>
+          </div></div>
+          <div class="flow">
+            <div class="step"><div class="num">1</div><h3>撮る</h3><p>領収書や通帳をスマホで見やすく撮影する。</p></div>
+            <div class="step"><div class="num">2</div><h3>読ませる</h3><p>AIへ画像や文字起こしを渡して、項目を抽出させる。</p></div>
+            <div class="step"><div class="num">3</div><h3>表にする</h3><p>日付、支払先、金額、内容をExcel向けに整える。</p></div>
+            <div class="step"><div class="num">4</div><h3>直す</h3><p>人間が数字、税区分、勘定科目を確認する。</p></div>
+          </div>
+        </section>
+
+        <section class="chapter" id="sec25">
+          <h2>25. AI自動化の事故：簿記を知らないと間違いに気づけない</h2>
+          <p class="chapterLead">AIが間違えること自体より怖いのは、人間がその間違いを見抜けないことだ。</p>
+          <div class="mangaPanel"><span class="panelLabel">SCENE 24 / 軍の憲兵に出す前に</span><div class="dialogue">
+            <div class="line"><div class="face"><img src="./edward.png" alt="エドワード"></div><div class="bubble"><div class="speaker">エドワード <span class="roleTag">ツッコミ役</span></div><p>AIが数字を読み間違えるくらいなら、あとで直せばいいんじゃないのか？</p></div></div>
+            <div class="line right"><div class="face"><img src="./hughes.png" alt="ヒューズ"></div><div class="bubble"><div class="speaker">ヒューズ <span class="roleTag">先生役</span></div><p>直せるならな。問題は、簿記を知らない人間が間違いに気づけず、そのまま税務署や銀行に出してしまうことだ。</p></div></div>
+            <div class="line"><div class="face"><img src="./winry.png" alt="ウインリー"></div><div class="bubble"><div class="speaker">ウインリー <span class="roleTag">実務サポート</span></div><p>薄い文字、手書き、似た数字、税区分、インボイス番号、勘定科目……AIがミスるポイントは普通にあるわ。</p></div></div>
+            <div class="line right"><div class="face"><img src="./alphonse.png" alt="アルフォンス"></div><div class="bubble"><div class="speaker">アルフォンス <span class="roleTag">補足役</span></div><p>AIの出力を信じる前に、最低限PLとBSの意味、費用や資産の違いを見られるようにしておく必要があるんだね。</p></div></div>
+          </div></div>
+          <div class="infoGrid">
+            <div class="card"><b>読み取りミス</b><p>8と3、0と6、日付、店名、金額などをAIが誤読する可能性がある。</p></div>
+            <div class="card"><b>分類ミス</b><p>費用なのか、資産なのか、どの勘定科目に入るのかを間違える可能性がある。</p></div>
+            <div class="card"><b>税区分ミス</b><p>消費税、軽減税率、インボイスなどの判断を誤る可能性がある。</p></div>
+            <div class="card"><b>人間の盲信</b><p>AIが作った表をそのまま使うと、間違いが帳簿へ流れ込む。</p></div>
+          </div>
+          <div class="dangerPanel"><div class="title">⚠ 最悪パターン</div><p>AIが間違える → 人間が気づかない → 間違った帳簿になる → 税務署や銀行へ誤った資料を出す。これが会計AI丸投げの禁忌だ。</p></div>
+        </section>
+
+        <section class="chapter" id="sec26">
+          <h2>26. 理解度チェック：儲けを見るならどっち？</h2>
+          <p class="chapterLead">会社が「この1年間でいくら儲かったか」を知りたい時、読むべき魔導書はどちらか。</p>
+          <div class="mangaPanel"><span class="panelLabel">SCENE 25 / ブラザーへの問い</span><div class="dialogue">
+            <div class="line"><div class="face"><img src="./hughes.png" alt="ヒューズ"></div><div class="bubble"><div class="speaker">ヒューズ <span class="roleTag">出題役</span></div><p>問題だ。会社が「この1年間でいくら儲かったか」を確認したい時、真っ先に読むべき成績表はどちらだ？</p></div></div>
+            <div class="line right"><div class="face"><img src="./winry.png" alt="ウインリー"></div><div class="bubble"><div class="speaker">ウインリー <span class="roleTag">選択肢</span></div><p>1. PL（損益計算書）<br>2. BS（貸借対照表）</p></div></div>
+            <div class="line"><div class="face"><img src="./edward.png" alt="エドワード"></div><div class="bubble"><div class="speaker">エドワード <span class="roleTag">ヒント役</span></div><p>「1年間でいくら儲かったか」って言ってるから、期間の成績表を見るはずだ。瞬間のステータス画面じゃない。</p></div></div>
+            <div class="line right"><div class="face"><img src="./alphonse.png" alt="アルフォンス"></div><div class="bubble"><div class="speaker">アルフォンス <span class="roleTag">答え</span></div><p>答えは1番、PL（損益計算書）だね。売上、費用、利益を見る書類だから、儲けを確認する時に使うんだ。</p></div></div>
+          </div></div>
+          <div class="dangerPanel"><div class="title">⚠ 覚え方</div><p>PLは「儲け」。BSは「状態」。この2つだけでも最初に押さえれば、AIの会計データを見た時に迷いにくくなる。</p></div>
+        </section>
+
+        <section class="chapter linkList" id="sec27">
+          <h2>27. 今日の5分実践と動画リンク</h2>
+          <p class="chapterLead">Day2後半は、AI操作より先にPL・BSの意味を確認する。次に、領収書1枚だけをAIで表にして、人間がチェックする。</p>
+          <div class="flow">
+            <div class="step"><div class="num">1</div><h3>PL確認</h3><p>PLは売上・費用・利益を見る書類だと説明できるようにする。</p></div>
+            <div class="step"><div class="num">2</div><h3>BS確認</h3><p>BSは資産・負債・純資産を見る書類だと説明できるようにする。</p></div>
+            <div class="step"><div class="num">3</div><h3>AI入力</h3><p>領収書1枚をAIに表化させる。</p></div>
+            <div class="step"><div class="num">4</div><h3>検算</h3><p>日付、金額、勘定科目、税区分を人間が確認する。</p></div>
+          </div>
+          <div class="promptBox" id="prompt-day2b-receipt-check">以下のAIが作成した会計入力表をチェックして。
+
+【確認項目】
+1. 日付と金額に不自然な点はないか
+2. 支払先と内容は対応しているか
+3. 勘定科目候補は妥当か
+4. PLに関係する費用なのか、BSに関係する資産・負債なのか
+5. 消費税区分やインボイス確認で要注意の点
+6. 人間が修正すべき点
+
+【制約】
+・断定できない箇所は「要確認」と書く
+・専門用語にはカッコで意味を添える
+・初心者にも分かる言葉で説明する</div>
+          <div class="copyRow"><span>AI会計入力の検算用プロンプト。</span><button class="copyBtn" data-copy="prompt-day2b-receipt-check">コピー</button></div>
+          <div class="dangerPanel"><div class="title">⚠ 結論</div><p>先に身につけるべきは「会計の基本ルール」。そのうえでAI操作スキルを使うと、面倒な入力を減らしながら事故も防げる。</p></div>
+          <ul>
+            <li>動画1：簿記の目的と流れ<br><a href="https://www.youtube.com/watch?v=pQrxmzrDR1c&list=PLoQApr14fceOrvKv_r8fDIfpRFwkY_QTC&index=1&pp=iAQB" target="_blank" rel="noopener noreferrer">https://www.youtube.com/watch?v=pQrxmzrDR1c&list=PLoQApr14fceOrvKv_r8fDIfpRFwkY_QTC&index=1&pp=iAQB</a></li>
+            <li>動画2：財務三表の基礎<br><a href="https://www.youtube.com/watch?v=ydenauRwjS0&list=PLoQApr14fceOrvKv_r8fDIfpRFwkY_QTC&index=2&pp=iAQB" target="_blank" rel="noopener noreferrer">https://www.youtube.com/watch?v=ydenauRwjS0&list=PLoQApr14fceOrvKv_r8fDIfpRFwkY_QTC&index=2&pp=iAQB</a></li>
+            <li>動画3：AIによる領収書・通帳入力<br><a href="https://www.youtube.com/watch?v=ohBnhlh5vMY&list=PLoQApr14fceOrvKv_r8fDIfpRFwkY_QTC&index=3&pp=iAQB" target="_blank" rel="noopener noreferrer">https://www.youtube.com/watch?v=ohBnhlh5vMY&list=PLoQApr14fceOrvKv_r8fDIfpRFwkY_QTC&index=3&pp=iAQB</a></li>
+          </ul>
+        </section>
+
+
+
+        <section class="hero" id="day3a-hero" style="margin-top:22px;">
+          <span class="eyebrow">DAY3 FRONT / DOUBLE-ENTRY ALCHEMY FILE</span>
+          <h1>Day3前半｜複式簿記は、会社の成績表を作るための等価交換ルールだ。</h1>
+          <p class="lead">Day3前半は、帳簿（お金の記録）の付け方、単式簿記（お小遣い帳式の記録）、複式簿記（原因と結果の2面で記録するルール）、T字勘定（科目ごとの残高メモ）、転記（仕訳帳から総勘定元帳へ写す作業）をつなげる回だ。会計ソフトは入力を楽にするが、裏側で何が起きているかを知らないと、AIやソフトの出力を検算できない。</p>
+          <div class="themeStrip">
+            <span class="themePill">📝 帳簿＝錬金術の研究ノート</span><span class="themePill">⚖️ 複式簿記＝等価交換の記録</span><span class="themePill">🗂️ T字勘定＝科目別の保管庫</span><span class="themePill">🔄 転記＝公式記録への清書</span>
+          </div>
+          <div class="dangerPanel"><div class="title">⚠ TABOO WARNING / 会計ソフトだけ信じるな</div><p>会計ソフトやAIは、レシート入力から仕訳や転記をかなり自動化できる。ただし、単式簿記と複式簿記の違い、T字勘定や総勘定元帳の意味を知らないと、間違った入力や分類ミスに気づけない。自動化はチートではなく、基礎を持つ人間の機械鎧だ。</p></div>
+        </section>
+
+        <section class="chapter" id="sec28">
+          <h2>28. 単式簿記と複式簿記：お小遣い帳と等価交換</h2>
+          <p class="chapterLead">単式簿記は「お金が増えた・減った」を記録する簡単な方法。複式簿記は「何が起きたか」と「どう動いたか」を2面で記録する会社向けの正式ルールだ。</p>
+          <div class="mangaPanel"><span class="panelLabel">SCENE 26 / 等価交換の記録</span><div class="dialogue">
+            <div class="line"><div class="face"><img src="./edward.png" alt="エドワード"></div><div class="bubble"><div class="speaker">エドワード <span class="roleTag">ツッコミ役</span></div><p>単式簿記と複式簿記って、名前からして初心者を殺しに来てるだろ。何が違うんだ？</p></div></div>
+            <div class="line right"><div class="face"><img src="./hughes.png" alt="ヒューズ"></div><div class="bubble"><div class="speaker">ヒューズ <span class="roleTag">先生役</span></div><p>単式簿記は、お小遣い帳だ。「入った」「出た」を見る。複式簿記は、原因と結果の両方を見る。たとえば「備品を買った」と「現金が減った」を同時に記録する。</p></div></div>
+            <div class="line"><div class="face"><img src="./alphonse.png" alt="アルフォンス"></div><div class="bubble"><div class="speaker">アルフォンス <span class="roleTag">補足役</span></div><p>複式簿記は、まさに等価交換だね。何かを得たら、別の何かが減る。2つの面をセットで記録するんだ。</p></div></div>
+            <div class="line right"><div class="face"><img src="./winry.png" alt="ウインリー"></div><div class="bubble"><div class="speaker">ウインリー <span class="roleTag">実務サポート</span></div><p>会社の正確な成績表、つまり財務諸表を作るなら複式簿記が必要よ。単式簿記だけだと全体の状態が見えにくいの。</p></div></div>
+          </div></div>
+          <div class="infoGrid"><div class="card"><b>単式簿記</b><p>お金の出入りだけを記録する方法。分かりやすいが、会社全体の状態は見えにくい。</p></div><div class="card"><b>複式簿記</b><p>取引を原因と結果の2面で記録する方法。会社の財務諸表を作る基礎になる。</p></div><div class="card"><b>借方・貸方</b><p>複式簿記で左右に分けて記録する場所。最初は「左と右の記録欄」くらいで覚えていい。</p></div><div class="card"><b>答え</b><p>青色申告や会社の正確な成績表を作るためにマスターすべきルールは、複式簿記だ。</p></div></div>
+        </section>
+
+        <section class="chapter" id="sec29">
+          <h2>29. 会計ソフト：複式簿記を裏側で処理する自動書記ツール</h2>
+          <p class="chapterLead">会計ソフトは、入力したレシートや取引情報を、裏側で仕訳や転記に変換してくれる。だが、出力の意味を読む基礎は人間に必要だ。</p>
+          <div class="mangaPanel"><span class="panelLabel">SCENE 27 / 自動書記ツール</span><div class="dialogue">
+            <div class="line"><div class="face"><img src="./winry.png" alt="ウインリー"></div><div class="bubble"><div class="speaker">ウインリー <span class="roleTag">実務サポート</span></div><p>会計ソフトを使えば、レシートを入力するだけで、裏側で複式簿記の形にしてくれることが多いわ。</p></div></div>
+            <div class="line right"><div class="face"><img src="./edward.png" alt="エドワード"></div><div class="bubble"><div class="speaker">エドワード <span class="roleTag">ツッコミ役</span></div><p>じゃあ借方・貸方なんて覚えなくてもよくね？ ソフトに任せれば終わりだろ。</p></div></div>
+            <div class="line"><div class="face"><img src="./hughes.png" alt="ヒューズ"></div><div class="bubble"><div class="speaker">ヒューズ <span class="roleTag">先生役</span></div><p>甘い。ソフトは自動書記だが、判断者ではない。勘定科目、税区分、取引内容の解釈を間違えることはある。確認する人間が無知なら、間違いがそのまま帳簿に残る。</p></div></div>
+            <div class="line right"><div class="face"><img src="./alphonse.png" alt="アルフォンス"></div><div class="bubble"><div class="speaker">アルフォンス <span class="roleTag">補足役</span></div><p>会計ソフトは、初心者を助ける機械鎧。でも、装着者が何をしているか分からないまま使うと危ないんだね。</p></div></div>
+          </div></div>
+          <div class="dangerPanel"><div class="title">⚠ 会計ソフトの罠</div><p>会計ソフトは、仕訳や転記を自動化できる。ただし、入力内容が間違っていれば、出力も間違う。AIと同じで「自動化＝正解保証」ではない。</p></div>
+        </section>
+
+        <section class="chapter" id="sec30">
+          <h2>30. T字勘定：科目ごとの専用保管庫</h2>
+          <p class="chapterLead">T字勘定は、現金・売上・仕入など、勘定科目ごとに金額の増減を整理するためのメモだ。総勘定元帳の簡易版として理解すると分かりやすい。</p>
+          <div class="mangaPanel"><span class="panelLabel">SCENE 28 / 専用保管庫</span><div class="dialogue">
+            <div class="line"><div class="face"><img src="./edward.png" alt="エドワード"></div><div class="bubble"><div class="speaker">エドワード <span class="roleTag">ツッコミ役</span></div><p>T字勘定って何だ？ Tの字を書いて遊んでるだけに見えるぞ。</p></div></div>
+            <div class="line right"><div class="face"><img src="./alphonse.png" alt="アルフォンス"></div><div class="bubble"><div class="speaker">アルフォンス <span class="roleTag">補足役</span></div><p>T字勘定は、科目ごとの専用ボックスだよ。現金の箱、売上の箱、仕入の箱に分けて、増えた・減ったを整理するんだ。</p></div></div>
+            <div class="line"><div class="face"><img src="./winry.png" alt="ウインリー"></div><div class="bubble"><div class="speaker">ウインリー <span class="roleTag">実務サポート</span></div><p>日付順に記録するだけだと、今の現金残高が分かりにくいの。科目ごとに移し替えると、残高が追いやすくなるわ。</p></div></div>
+            <div class="line right"><div class="face"><img src="./hughes.png" alt="ヒューズ"></div><div class="bubble"><div class="speaker">ヒューズ <span class="roleTag">先生役</span></div><p>軍の物資管理と同じだ。全部を日記に書くだけでは管理できない。武器庫、食料庫、医療品庫に分けて残高を把握する必要がある。</p></div></div>
+          </div></div>
+          <div class="flow"><div class="step"><div class="num">1</div><h3>仕訳を書く</h3><p>取引を借方・貸方に分けて記録する。</p></div><div class="step"><div class="num">2</div><h3>科目を見る</h3><p>現金、売上、仕入など、関係する科目を確認する。</p></div><div class="step"><div class="num">3</div><h3>T字へ移す</h3><p>科目ごとのT字勘定に金額を移し替える。</p></div><div class="step"><div class="num">4</div><h3>残高を見る</h3><p>科目ごとに今いくら残っているか確認する。</p></div></div>
+        </section>
+
+        <section class="chapter" id="sec31">
+          <h2>31. 転記と総勘定元帳：日々のメモから公式記録へ</h2>
+          <p class="chapterLead">転記は、仕訳帳に書いた日々の取引を、総勘定元帳（すべての勘定科目の動きと残高をまとめる公式ノート）へ写す作業だ。</p>
+          <div class="mangaPanel"><span class="panelLabel">SCENE 29 / 公式記録への清書</span><div class="dialogue">
+            <div class="line"><div class="face"><img src="./winry.png" alt="ウインリー"></div><div class="bubble"><div class="speaker">ウインリー <span class="roleTag">実務サポート</span></div><p>転記は、仕訳帳から総勘定元帳へデータを移す作業よ。日々のメモを科目別の公式記録へ整理する感じね。</p></div></div>
+            <div class="line right"><div class="face"><img src="./edward.png" alt="エドワード"></div><div class="bubble"><div class="speaker">エドワード <span class="roleTag">ツッコミ役</span></div><p>仕訳を練習して終わりじゃダメってことか。転記しないと全体の整理が進まないんだな。</p></div></div>
+            <div class="line"><div class="face"><img src="./hughes.png" alt="ヒューズ"></div><div class="bubble"><div class="speaker">ヒューズ <span class="roleTag">先生役</span></div><p>その通り。仕訳は日々の記録、総勘定元帳は科目別の公式記録。最終的な財務諸表は、この整理された記録から作る。</p></div></div>
+            <div class="line right"><div class="face"><img src="./alphonse.png" alt="アルフォンス"></div><div class="bubble"><div class="speaker">アルフォンス <span class="roleTag">補足役</span></div><p>今自分が「毎日のメモを書いている」のか、「全体を整理している」のかを意識すると迷子になりにくいね。</p></div></div>
+          </div></div>
+          <div class="infoGrid"><div class="card"><b>仕訳帳</b><p>日付順に取引を記録するノート。毎日の取引メモ。</p></div><div class="card"><b>転記</b><p>仕訳帳の内容を、科目ごとの総勘定元帳へ写す作業。</p></div><div class="card"><b>総勘定元帳</b><p>すべての勘定科目の動きと残高をまとめる大元の帳簿。</p></div><div class="card"><b>財務諸表</b><p>整理された帳簿をもとに作る会社の成績表。</p></div></div>
+        </section>
+
+        <section class="chapter" id="sec32">
+          <h2>32. 理解度チェック：マスターすべきルールはどっち？</h2>
+          <p class="chapterLead">青色申告で大きな控除を受けたり、会社の正確な財務諸表を作ったりするなら、単式簿記ではなく複式簿記を理解する必要がある。</p>
+          <div class="mangaPanel"><span class="panelLabel">SCENE 30 / ブラザーへの問い</span><div class="dialogue">
+            <div class="line"><div class="face"><img src="./hughes.png" alt="ヒューズ"></div><div class="bubble"><div class="speaker">ヒューズ <span class="roleTag">出題役</span></div><p>問題だ。日々の出入りだけを記録する単式簿記と、原因と結果の二面性を記録する複式簿記。会社の正確な成績表を作るために必要なのはどちらだ？</p></div></div>
+            <div class="line right"><div class="face"><img src="./edward.png" alt="エドワード"></div><div class="bubble"><div class="speaker">エドワード <span class="roleTag">回答役</span></div><p>答えは複式簿記だ。等価交換を記録するルールだし、財務諸表を作る土台になる。</p></div></div>
+            <div class="line"><div class="face"><img src="./alphonse.png" alt="アルフォンス"></div><div class="bubble"><div class="speaker">アルフォンス <span class="roleTag">補足役</span></div><p>単式簿記は分かりやすいけど、会社全体の状態を正確に見るには足りないんだね。</p></div></div>
+            <div class="line right"><div class="face"><img src="./winry.png" alt="ウインリー"></div><div class="bubble"><div class="speaker">ウインリー <span class="roleTag">実務サポート</span></div><p>会計ソフトが裏側でやってくれるとしても、何が起きているかを知っているだけでチェック力が全然変わるわ。</p></div></div>
+          </div></div>
+          <div class="dangerPanel"><div class="title">⚠ 答え</div><p>マスターすべきルールは、<b>複式簿記</b>。単式簿記はお小遣い帳としては便利だが、財務諸表や青色申告の強いメリットを狙うなら複式簿記が軸になる。</p></div>
+        </section>
+
+        <section class="chapter linkList" id="sec33">
+          <h2>33. 今日の5分実践と動画リンク</h2>
+          <p class="chapterLead">今日は、1つの取引を「単式簿記っぽく見る」と「複式簿記っぽく見る」の2通りで比べる。違いが見えたら勝ちだ。</p>
+          <div class="flow"><div class="step"><div class="num">1</div><h3>取引を選ぶ</h3><p>例：現金で文房具を500円買った。</p></div><div class="step"><div class="num">2</div><h3>単式で見る</h3><p>現金が500円減った、と記録する。</p></div><div class="step"><div class="num">3</div><h3>複式で見る</h3><p>消耗品費が増え、現金が減った、と2面で見る。</p></div><div class="step"><div class="num">4</div><h3>T字に移す</h3><p>消耗品費ボックスと現金ボックスへ分けて整理する。</p></div></div>
+          <div class="promptBox" id="prompt-day3a-double-entry">以下の取引を、簿記初心者にも分かるように整理して。
+
+【取引】
+ここに取引を書く
+
+【出力形式】
+1. 単式簿記で見るとどうなるか
+2. 複式簿記で見るとどうなるか
+3. 借方 / 貸方
+4. 関係するT字勘定
+5. 総勘定元帳へ転記するときの考え方
+6. 初心者が間違えやすい点
+
+【制約】
+・専門用語にはカッコで意味を添える
+・不明点は推測で断定しない
+・小学生にも伝わる比喩を入れる</div>
+          <div class="copyRow"><span>複式簿記とT字勘定の練習用プロンプト。</span><button class="copyBtn" data-copy="prompt-day3a-double-entry">コピー</button></div>
+          <div class="dangerPanel"><div class="title">⚠ 結論</div><p>会計ソフトを使えば、仕訳も転記もかなり自動化できる。だが、裏側の等価交換ルールである複式簿記を知っている人間ほど、AIとソフトを安全に使いこなせる。</p></div>
+          <ul>
+            <li>動画1：帳簿の付け方と会計ソフト<br><a href="https://www.youtube.com/watch?v=HI2DXDOyx8Q" target="_blank" rel="noopener noreferrer">https://www.youtube.com/watch?v=HI2DXDOyx8Q</a></li>
+            <li>動画2：T字勘定<br><a href="https://youtu.be/JGnQIxkZChI?si=R_uX9UHQ7Qo-Pzyw" target="_blank" rel="noopener noreferrer">https://youtu.be/JGnQIxkZChI?si=R_uX9UHQ7Qo-Pzyw</a></li>
+            <li>動画3：転記と総勘定元帳<br><a href="https://youtu.be/EeDOxSb95ew?si=LHdWiCmlvKz4a4j7" target="_blank" rel="noopener noreferrer">https://youtu.be/EeDOxSb95ew?si=LHdWiCmlvKz4a4j7</a></li>
+          </ul>
+        </section>
+
+
+
+        <section class="hero" id="day3b-hero" style="margin-top:22px;">
+          <span class="eyebrow">DAY3 BACK / BOOKS & VOUCHER ALCHEMY FILE</span>
+          <h1>Day3後半｜仕訳だけでは終わらない。帳簿と伝票で会社の動きを制御する。</h1>
+          <p class="lead">
+            Day3後半は、仕訳（取引を借方・貸方に分ける基本記録）を、帳簿（公式ノート）や伝票（分担作業用の小さな記録紙）へどうつなげるかを整理する回だ。
+            仕訳だけを覚えても、主要簿・補助簿・伝票会計の流れが見えていないと、会社の状態を正しく追えない。
+          </p>
+          <div class="themeStrip">
+            <span class="themePill">📓 帳簿＝公式魔導書</span>
+            <span class="themePill">📚 主要簿＝必須のメイン記録</span>
+            <span class="themePill">🗂️ 補助簿＝細部を見るサブ記録</span>
+            <span class="themePill">📄 伝票＝チーム用の分担メモ</span>
+          </div>
+          <div class="dangerPanel">
+            <div class="title">⚠ TABOO WARNING / 仕訳だけで止まるな</div>
+            <p>
+              仕訳は大事だが、仕訳だけでは財務諸表（会社の成績表）まで届かない。
+              仕訳帳へ記録し、総勘定元帳へ転記し、必要に応じて補助簿で内訳を追い、伝票で作業を分担する。
+              この流れが見えて初めて、帳簿という公式魔導書が読める。
+            </p>
+          </div>
+        </section>
+
+        <section class="chapter" id="sec34">
+          <h2>34. 帳簿の全体像：公式魔導書とサブ魔導書</h2>
+          <p class="chapterLead">帳簿は、お金の動きを記録するノートだ。大きく分けると、絶対に必要な主要簿と、必要に応じて細かく管理する補助簿がある。</p>
+          <div class="mangaPanel"><span class="panelLabel">SCENE 31 / 帳簿の地図</span><div class="dialogue">
+            <div class="line"><div class="face"><img src="./edward.png" alt="エドワード"></div><div class="bubble"><div class="speaker">エドワード <span class="roleTag">ツッコミ役</span></div><p>仕訳を覚えたと思ったら、今度は帳簿だと？ どれだけノート増やす気だよ。</p></div></div>
+            <div class="line right"><div class="face"><img src="./hughes.png" alt="ヒューズ"></div><div class="bubble"><div class="speaker">ヒューズ <span class="roleTag">先生役</span></div><p>帳簿は公式記録だ。仕訳帳と総勘定元帳という主要簿がメイン。さらに、現金出納帳や売掛金元帳のような補助簿で細かい内訳を追う。</p></div></div>
+            <div class="line"><div class="face"><img src="./alphonse.png" alt="アルフォンス"></div><div class="bubble"><div class="speaker">アルフォンス <span class="roleTag">補足役</span></div><p>主要簿は大きな地図。補助簿は街区ごとの詳細地図みたいなものだね。</p></div></div>
+            <div class="line right"><div class="face"><img src="./winry.png" alt="ウインリー"></div><div class="bubble"><div class="speaker">ウインリー <span class="roleTag">実務サポート</span></div><p>仕訳だけ練習しても、どの帳簿につながるか分からないと、試験でも実務でも迷子になるわ。</p></div></div>
+          </div></div>
+          <div class="infoGrid">
+            <div class="card"><b>帳簿</b><p>会社のお金の動きを記録・整理するノート。財務諸表を作る材料になる。</p></div>
+            <div class="card"><b>主要簿</b><p>仕訳帳と総勘定元帳。会計の中心になるメイン帳簿。</p></div>
+            <div class="card"><b>補助簿</b><p>現金、売掛金、商品など、細かい内訳を管理するサブ帳簿。</p></div>
+            <div class="card"><b>初心者の見方</b><p>仕訳はメモ、帳簿は整理棚。どこに整理されるかを意識する。</p></div>
+          </div>
+        </section>
+
+        <section class="chapter" id="sec35">
+          <h2>35. 主要簿：仕訳帳と総勘定元帳</h2>
+          <p class="chapterLead">主要簿は、会計の中心になるメインの帳簿だ。仕訳帳は日付順の記録、総勘定元帳は科目別の記録だ。</p>
+          <div class="mangaPanel"><span class="panelLabel">SCENE 32 / メイン魔導書</span><div class="dialogue">
+            <div class="line"><div class="face"><img src="./winry.png" alt="ウインリー"></div><div class="bubble"><div class="speaker">ウインリー <span class="roleTag">初心者目線</span></div><p>主要簿って、具体的には何を指すの？</p></div></div>
+            <div class="line right"><div class="face"><img src="./hughes.png" alt="ヒューズ"></div><div class="bubble"><div class="speaker">ヒューズ <span class="roleTag">先生役</span></div><p>仕訳帳と総勘定元帳だ。仕訳帳は、すべての取引を日付順に書く日記。総勘定元帳は、それを勘定科目ごとに分類した大元のノートだ。</p></div></div>
+            <div class="line"><div class="face"><img src="./edward.png" alt="エドワード"></div><div class="bubble"><div class="speaker">エドワード <span class="roleTag">ツッコミ役</span></div><p>日記帳と、科目ごとの整理棚ってことか。仕訳帳だけ見ても、現金が今いくらかは追いにくいわけだな。</p></div></div>
+            <div class="line right"><div class="face"><img src="./alphonse.png" alt="アルフォンス"></div><div class="bubble"><div class="speaker">アルフォンス <span class="roleTag">補足役</span></div><p>だから転記（仕訳帳から総勘定元帳へ写すこと）が必要なんだね。</p></div></div>
+          </div></div>
+          <div class="flow"><div class="step"><div class="num">1</div><h3>取引発生</h3><p>売上、仕入、入金、支払いなどが起きる。</p></div><div class="step"><div class="num">2</div><h3>仕訳帳</h3><p>取引を日付順に借方・貸方で記録する。</p></div><div class="step"><div class="num">3</div><h3>総勘定元帳</h3><p>科目ごとに分類して金額を整理する。</p></div><div class="step"><div class="num">4</div><h3>財務諸表</h3><p>整理された帳簿から会社の成績表を作る。</p></div></div>
+        </section>
+
+        <section class="chapter" id="sec36">
+          <h2>36. 補助簿：細かい内訳を見るサブ魔導書</h2>
+          <p class="chapterLead">補助簿は、主要簿だけでは分からない細かい内訳を見るための帳簿だ。現金出納帳、売掛金元帳、商品有高帳などがある。</p>
+          <div class="mangaPanel"><span class="panelLabel">SCENE 33 / サブ魔導書</span><div class="dialogue">
+            <div class="line"><div class="face"><img src="./alphonse.png" alt="アルフォンス"></div><div class="bubble"><div class="speaker">アルフォンス <span class="roleTag">補足役</span></div><p>総勘定元帳があるなら、補助簿はいらないんじゃないかな？</p></div></div>
+            <div class="line right"><div class="face"><img src="./winry.png" alt="ウインリー"></div><div class="bubble"><div class="speaker">ウインリー <span class="roleTag">実務サポート</span></div><p>総勘定元帳だけだと、細かい相手先や商品ごとの内訳が見えにくいの。A社からいくら回収して、B社はいくら残っているかを見たいでしょ？</p></div></div>
+            <div class="line"><div class="face"><img src="./hughes.png" alt="ヒューズ"></div><div class="bubble"><div class="speaker">ヒューズ <span class="roleTag">先生役</span></div><p>補助簿は、主要簿の弱点を補うサブ記録だ。現金出納帳、当座預金出納帳、売掛金元帳、買掛金元帳、商品有高帳などが代表例だ。</p></div></div>
+            <div class="line right"><div class="face"><img src="./edward.png" alt="エドワード"></div><div class="bubble"><div class="speaker">エドワード <span class="roleTag">ツッコミ役</span></div><p>なるほどな。メイン帳簿が大地図、補助簿が拡大マップってわけか。</p></div></div>
+          </div></div>
+          <div class="infoGrid"><div class="card"><b>現金出納帳</b><p>現金の入出金を細かく管理する補助簿。</p></div><div class="card"><b>売掛金元帳</b><p>得意先ごとに、あとで受け取るお金を管理する補助簿。</p></div><div class="card"><b>買掛金元帳</b><p>仕入先ごとに、あとで支払うお金を管理する補助簿。</p></div><div class="card"><b>商品有高帳</b><p>商品の数量や単価、在庫の動きを管理する補助簿。</p></div></div>
+          <div class="dangerPanel"><div class="title">⚠ 試験での迷子ポイント</div><p>仕訳をした後、「この取引はどの補助簿にも関係するか」を考える癖が必要だ。現金なら現金出納帳、商品なら商品有高帳、掛け取引なら売掛金元帳や買掛金元帳まで想像する。</p></div>
+        </section>
+
+        <section class="chapter" id="sec37">
+          <h2>37. 伝票会計：チームで錬成するための仕組み</h2>
+          <p class="chapterLead">会社が大きくなると、1冊の仕訳帳を全員で使うのは非効率になる。そこで、取引の種類ごとに伝票へ分けて記録する。</p>
+          <div class="mangaPanel"><span class="panelLabel">SCENE 34 / 分担作業用メモ</span><div class="dialogue">
+            <div class="line"><div class="face"><img src="./edward.png" alt="エドワード"></div><div class="bubble"><div class="speaker">エドワード <span class="roleTag">ツッコミ役</span></div><p>伝票って、小さい紙切れみたいなやつだろ？ なんでわざわざ増やすんだ？</p></div></div>
+            <div class="line right"><div class="face"><img src="./hughes.png" alt="ヒューズ"></div><div class="bubble"><div class="speaker">ヒューズ <span class="roleTag">先生役</span></div><p>人数が増えると、1冊の仕訳帳を全員で取り合うことになる。伝票会計は、取引を紙ごとに分けて記録し、後でまとめるための仕組みだ。</p></div></div>
+            <div class="line"><div class="face"><img src="./winry.png" alt="ウインリー"></div><div class="bubble"><div class="speaker">ウインリー <span class="roleTag">実務サポート</span></div><p>入金は入金伝票、出金は出金伝票、現金が動かない取引は振替伝票。担当を分けられるから、大きな会社では作業しやすいの。</p></div></div>
+            <div class="line right"><div class="face"><img src="./alphonse.png" alt="アルフォンス"></div><div class="bubble"><div class="speaker">アルフォンス <span class="roleTag">補足役</span></div><p>チームで錬成する時に、みんなで同じ魔導書を奪い合わないための分担メモなんだね。</p></div></div>
+          </div></div>
+          <div class="flow"><div class="step"><div class="num">入</div><h3>入金伝票</h3><p>現金が入ってきた時に使う。</p></div><div class="step"><div class="num">出</div><h3>出金伝票</h3><p>現金が出ていった時に使う。</p></div><div class="step"><div class="num">振</div><h3>振替伝票</h3><p>現金が動かない取引で使う。</p></div><div class="step"><div class="num">集</div><h3>集計</h3><p>伝票を後で集計し、帳簿へ反映する。</p></div></div>
+        </section>
+
+        <section class="chapter" id="sec38">
+          <h2>38. 入金・出金・振替伝票：暗黙の現金ルール</h2>
+          <p class="chapterLead">入金伝票と出金伝票では、現金の動きがすでに決まっている。そのため、伝票には相手科目を中心に書く。</p>
+          <div class="mangaPanel"><span class="panelLabel">SCENE 35 / 伝票の暗黙ルール</span><div class="dialogue">
+            <div class="line"><div class="face"><img src="./winry.png" alt="ウインリー"></div><div class="bubble"><div class="speaker">ウインリー <span class="roleTag">初心者目線</span></div><p>入金伝票なら現金が入った、出金伝票なら現金が出た、って意味がもう含まれてるのよね？</p></div></div>
+            <div class="line right"><div class="face"><img src="./hughes.png" alt="ヒューズ"></div><div class="bubble"><div class="speaker">ヒューズ <span class="roleTag">先生役</span></div><p>その通り。入金伝票は借方が現金、出金伝票は貸方が現金と考える。だから伝票には相手科目を意識して書く。</p></div></div>
+            <div class="line"><div class="face"><img src="./edward.png" alt="エドワード"></div><div class="bubble"><div class="speaker">エドワード <span class="roleTag">ツッコミ役</span></div><p>入金伝票にまた「現金」って書くと、二重に現金を意識して混乱するってことか。</p></div></div>
+            <div class="line right"><div class="face"><img src="./alphonse.png" alt="アルフォンス"></div><div class="bubble"><div class="speaker">アルフォンス <span class="roleTag">補足役</span></div><p>振替伝票は現金が動かない取引、たとえば掛け払いなどに使うんだね。</p></div></div>
+          </div></div>
+          <div class="infoGrid"><div class="card"><b>入金伝票</b><p>現金が入ってきた時に使う。借方は現金と考え、相手科目を意識する。</p></div><div class="card"><b>出金伝票</b><p>現金が出ていった時に使う。貸方は現金と考え、相手科目を意識する。</p></div><div class="card"><b>振替伝票</b><p>現金が動かない取引に使う。売掛金や買掛金などの掛け取引で登場しやすい。</p></div><div class="card"><b>初心者の罠</b><p>伝票の種類に含まれている現金の意味を忘れ、書くべき相手科目を間違える。</p></div></div>
+          <div class="dangerPanel"><div class="title">⚠ 暗記ポイント</div><p>入金伝票＝借方は現金。出金伝票＝貸方は現金。振替伝票＝現金は動かない。この3つを身体に叩き込む。</p></div>
+        </section>
+
+        <section class="chapter" id="sec39">
+          <h2>39. 理解度チェック：財務諸表までの正しい順番</h2>
+          <p class="chapterLead">取引が発生してから財務諸表が完成するまでの順番は、取引発生 → 仕訳 → 転記 → 財務諸表だ。</p>
+          <div class="mangaPanel"><span class="panelLabel">SCENE 36 / ブラザーへの問い</span><div class="dialogue">
+            <div class="line"><div class="face"><img src="./hughes.png" alt="ヒューズ"></div><div class="bubble"><div class="speaker">ヒューズ <span class="roleTag">出題役</span></div><p>問題だ。取引が発生して、最終的に財務諸表が完成するまでの正しい順番はどちらだ？</p></div></div>
+            <div class="line right"><div class="face"><img src="./winry.png" alt="ウインリー"></div><div class="bubble"><div class="speaker">ウインリー <span class="roleTag">選択肢</span></div><p>1. 取引発生 → 仕訳（メモ） → 転記（総勘定元帳へ） → 財務諸表<br>2. 取引発生 → 転記（総勘定元帳へ） → 仕訳（メモ） → 財務諸表</p></div></div>
+            <div class="line"><div class="face"><img src="./edward.png" alt="エドワード"></div><div class="bubble"><div class="speaker">エドワード <span class="roleTag">回答役</span></div><p>答えは1番だ。いきなり総勘定元帳へ転記するんじゃなく、まず仕訳で取引をメモする。</p></div></div>
+            <div class="line right"><div class="face"><img src="./alphonse.png" alt="アルフォンス"></div><div class="bubble"><div class="speaker">アルフォンス <span class="roleTag">補足役</span></div><p>仕訳帳に日付順で記録して、それを総勘定元帳へ科目別に転記して、最後に財務諸表へつなげるんだね。</p></div></div>
+          </div></div>
+          <div class="dangerPanel"><div class="title">⚠ 答え</div><p>正しい順番は、<b>1. 取引発生 → 仕訳 → 転記 → 財務諸表</b>。仕訳は日々のメモ、転記は科目別の整理、財務諸表は最終成績表だ。</p></div>
+        </section>
+
+        <section class="chapter linkList" id="sec40">
+          <h2>40. 今日の5分実践と動画リンク</h2>
+          <p class="chapterLead">今日は1つの取引を選び、仕訳帳・総勘定元帳・補助簿・伝票のどこに関係するかを考える。</p>
+          <div class="flow"><div class="step"><div class="num">1</div><h3>取引を選ぶ</h3><p>例：商品を現金で売り上げた。</p></div><div class="step"><div class="num">2</div><h3>仕訳する</h3><p>借方・貸方に分けて日付順に記録する。</p></div><div class="step"><div class="num">3</div><h3>帳簿を想像</h3><p>現金出納帳、商品有高帳、売上など関係帳簿を考える。</p></div><div class="step"><div class="num">4</div><h3>伝票を選ぶ</h3><p>入金・出金・振替のどれに当たるかを判断する。</p></div></div>
+          <div class="promptBox" id="prompt-day3b-books-vouchers">以下の取引について、簿記初心者にも分かるように整理して。
+
+【取引】
+ここに取引を書く
+
+【出力形式】
+1. 仕訳
+2. 関係する主要簿
+3. 関係する補助簿
+4. 使う可能性がある伝票
+5. 仕訳帳から総勘定元帳への転記の流れ
+6. 最終的に財務諸表へどうつながるか
+7. 初心者が間違えやすい点
+
+【制約】
+・専門用語にはカッコで意味を添える
+・不明点は推測で断定しない
+・鋼の錬金術師風のたとえで説明する</div>
+          <div class="copyRow"><span>帳簿・補助簿・伝票会計の練習用プロンプト。</span><button class="copyBtn" data-copy="prompt-day3b-books-vouchers">コピー</button></div>
+          <div class="dangerPanel"><div class="title">⚠ 結論</div><p>仕訳は入口。帳簿は整理。伝票は分担。財務諸表は最終成績表。流れを押さえれば、AIや会計ソフトが出す数字の意味も読めるようになる。</p></div>
+          <ul>
+            <li>動画1：帳簿（主要簿と補助簿）<br><a href="https://www.youtube.com/watch?v=5yVU7wLuXP0" target="_blank" rel="noopener noreferrer">https://www.youtube.com/watch?v=5yVU7wLuXP0</a></li>
+            <li>動画2：伝票会計<br><a href="https://www.youtube.com/watch?v=ViIAqPXtrAY" target="_blank" rel="noopener noreferrer">https://www.youtube.com/watch?v=ViIAqPXtrAY</a></li>
+          </ul>
+        </section>
+
+
+        <footer>
+          <div>Day1前半・後半 / Day2前半・後半 / Day3前半・後半｜漫画UI版 / 錬金術式AI育成ファイル</div>
+          <div>static HTML / local PNG / left-right speech bubbles / standing character rail / taboo warning panel / closed dropdown menus</div>
+        </footer>
+      </div>
+    </main>
+
+    <aside class="castRail" aria-label="常時表示キャラクター">
+      <div class="castTitle">常時表示<br>キャラクター立ち絵風</div>
+
+      <div class="standing">
+        <img src="./edward.png" alt="エドワード">
+        <div class="standingText"><b>エドワード</b><span>ツッコミ役 / 代償に敏感</span></div>
+      </div>
+      <div class="standing">
+        <img src="./alphonse.png" alt="アルフォンス">
+        <div class="standingText"><b>アルフォンス</b><span>優しい補足役 / 初心者を置いていかない</span></div>
+      </div>
+      <div class="standing">
+        <img src="./hughes.png" alt="ヒューズ">
+        <div class="standingText"><b>ヒューズ</b><span>先生役 / 軍部式に整理する</span></div>
+      </div>
+      <div class="standing">
+        <img src="./winry.png" alt="ウインリー">
+        <div class="standingText"><b>ウインリー</b><span>実務サポート / 道具の使い方を見る</span></div>
+      </div>
+
+      <div class="mission">
+        <b>MISSION</b><br>
+        AI・Canva・会計ソフトは速い。だが、帳簿の流れ・規約確認・最終責任は人間が持つ。
+      </div>
+    </aside>
+  </div>
+
+  <script>
+    document.querySelectorAll(".copyBtn").forEach((button) => {
+      button.addEventListener("click", async () => {
+        const id = button.dataset.copy;
+        const target = document.getElementById(id);
+        if (!target) return;
+
+        const text = target.innerText;
+        try {
+          await navigator.clipboard.writeText(text);
+          const original = button.textContent;
+          button.textContent = "コピー完了";
+          setTimeout(() => button.textContent = original, 1200);
+        } catch (error) {
+          const range = document.createRange();
+          range.selectNodeContents(target);
+          const selection = window.getSelection();
+          selection.removeAllRanges();
+          selection.addRange(range);
+          button.textContent = "選択した";
+          setTimeout(() => button.textContent = "コピー", 1200);
+        }
+      });
+    });
+  </script>
+</body>
+</html>
