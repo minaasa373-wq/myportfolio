@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Day1前半・後半 / Day2前半・後半 / Day3前半・後半｜錬金術式AIブリーフィング 漫画UI版</title>
+  <title>Day1前半・後半 / Day2前半・後半 / Day3前半・後半 / Day4前半・後半｜錬金術式AIブリーフィング 漫画UI版</title>
   <style>
     :root{
       --bg0:#050505;
@@ -655,8 +655,8 @@
 
   <div class="app">
     <aside class="side">
-      <div class="sideTitle">Day1前半・後半 / Day2前半・後半 / Day3前半・後半<br>錬金術式AI育成ファイル</div>
-      <p class="sideMeta">Day1はAIと簿記自動化、Day2はCanvaと簿記AI、Day3は複式簿記・T字勘定・帳簿・伝票会計を漫画UIで初心者向けに再錬成した版。</p>
+      <div class="sideTitle">Day1前半・後半 / Day2前半・後半 / Day3前半・後半 / Day4前半・後半<br>錬金術式AI育成ファイル</div>
+      <p class="sideMeta">Day1はAIと簿記自動化、Day2はCanvaと簿記AI、Day3は帳簿と伝票、Day4は現金管理・現金過不足・銀行勘定調整表を漫画UIで初心者向けに再錬成した版。</p>
       <div class="badgeRow">
         <span class="badge">📁 <b>DAY1</b></span>
         <span class="badge">⚖ <b>EQUIVALENT</b></span>
@@ -743,6 +743,34 @@
           <a href="#sec38">5. 入金・出金・振替伝票</a>
           <a href="#sec39">6. 理解度チェック</a>
           <a href="#sec40">7. 今日の5分実践と動画リンク</a>
+        </div>
+      </details>
+
+      <details>
+        <summary><span>Day4前半</span><i class="chev"></i></summary>
+        <div class="menuLinks">
+          <a href="#day4a-hero">トップ：3つの財布管理</a>
+          <a href="#sec41">1. 3つの財布の全体像</a>
+          <a href="#sec42">2. 現金出納帳</a>
+          <a href="#sec43">3. 当座預金出納帳</a>
+          <a href="#sec44">4. 当座借越の罠</a>
+          <a href="#sec45">5. 小口現金出納帳</a>
+          <a href="#sec46">6. クロスチェック</a>
+          <a href="#sec47">7. 今日の5分実践と動画リンク</a>
+        </div>
+      </details>
+
+      <details>
+        <summary><span>Day4後半</span><i class="chev"></i></summary>
+        <div class="menuLinks">
+          <a href="#day4b-hero">トップ：等価交換のバグ修正</a>
+          <a href="#sec48">1. ズレ管理の全体像</a>
+          <a href="#sec49">2. 小口現金と定額資金前渡法</a>
+          <a href="#sec50">3. 現金過不足</a>
+          <a href="#sec51">4. 雑損・雑益</a>
+          <a href="#sec52">5. 銀行勘定調整表</a>
+          <a href="#sec53">6. 仕訳するズレ・しないズレ</a>
+          <a href="#sec54">7. 今日の5分実践と動画リンク</a>
         </div>
       </details>
 
@@ -1991,8 +2019,296 @@
         </section>
 
 
+
+        <section class="hero" id="day4a-hero" style="margin-top:22px;">
+          <span class="eyebrow">DAY4 FRONT / CASH BOOK ALCHEMY FILE</span>
+          <h1>Day4前半｜現金・当座預金・小口現金。3つの財布を毎日締めろ。</h1>
+          <p class="lead">
+            Day4前半は、現金出納帳（手元現金の家計簿）、当座預金出納帳（小切手用口座の記録ノート）、小口現金出納帳（現場の少額支払い管理ノート）を整理する回だ。
+            会社のお金は「入った」「出た」だけでは足りない。残高（今いくら残っているか）を毎回確認して、帳簿上の数字と実際のお金を一致させる必要がある。
+          </p>
+          <div class="themeStrip">
+            <span class="themePill">💴 現金出納帳＝金庫の家計簿</span>
+            <span class="themePill">🏦 当座預金出納帳＝小切手口座ノート</span>
+            <span class="themePill">🪙 小口現金出納帳＝現場の小銭管理</span>
+            <span class="themePill">✅ 残高確認＝毎日の検算</span>
+          </div>
+          <div class="dangerPanel">
+            <div class="title">⚠ TABOO WARNING / 残高計算をサボるな</div>
+            <p>
+              出入りだけを書いて残高を計算しない帳簿は、穴の空いた錬成陣だ。
+              月末に実際の現金と帳簿の数字がズレると、原因探しで地獄を見る。
+              現金・当座預金・小口現金は、記録した瞬間に残高まで確認する。
+            </p>
+          </div>
+        </section>
+
+        <section class="chapter" id="sec41">
+          <h2>41. 3つの財布の全体像：現金・当座預金・小口現金</h2>
+          <p class="chapterLead">会社のお金には、手元の現金、小切手を使う当座預金、現場で少額支払いに使う小口現金がある。それぞれ専用の帳簿で管理する。</p>
+          <div class="mangaPanel"><span class="panelLabel">SCENE 37 / 3つの財布</span><div class="dialogue">
+            <div class="line"><div class="face"><img src="./edward.png" alt="エドワード"></div><div class="bubble"><div class="speaker">エドワード <span class="roleTag">ツッコミ役</span></div><p>現金、当座預金、小口現金……財布を増やしすぎだろ。結局どれも金じゃねえか。</p></div></div>
+            <div class="line right"><div class="face"><img src="./hughes.png" alt="ヒューズ"></div><div class="bubble"><div class="speaker">ヒューズ <span class="roleTag">先生役</span></div><p>同じ金でも、管理場所と使い方が違う。金庫の現金、小切手用の銀行口座、現場の小銭。財布が違えば記録する帳簿も変わる。</p></div></div>
+            <div class="line"><div class="face"><img src="./winry.png" alt="ウインリー"></div><div class="bubble"><div class="speaker">ウインリー <span class="roleTag">実務サポート</span></div><p>工具箱と同じよ。大きい工具、精密工具、現場用の小道具を同じ箱に入れたら管理できないでしょ。</p></div></div>
+            <div class="line right"><div class="face"><img src="./alphonse.png" alt="アルフォンス"></div><div class="bubble"><div class="speaker">アルフォンス <span class="roleTag">補足役</span></div><p>だから、それぞれの財布に専用ノートがあるんだね。入った金、出た金、残った金を分けて見るんだ。</p></div></div>
+          </div></div>
+          <div class="infoGrid">
+            <div class="card"><b>現金出納帳</b><p>会社の手元にある現金の入出金と残高を記録する帳簿。</p></div>
+            <div class="card"><b>当座預金出納帳</b><p>小切手や手形の決済に使う当座預金の増減と残高を記録する帳簿。</p></div>
+            <div class="card"><b>小口現金出納帳</b><p>交通費や文房具など、少額支払い用に現場へ渡した現金を管理する帳簿。</p></div>
+            <div class="card"><b>共通ルール</b><p>入金・出金を書いたら、その都度残高まで計算する。</p></div>
+          </div>
+        </section>
+
+        <section class="chapter" id="sec42">
+          <h2>42. 現金出納帳：手元にある現金の家計簿</h2>
+          <p class="chapterLead">現金出納帳は、会社にある現金がいくら入って、いくら出て、今いくら残っているかを記録する帳簿だ。</p>
+          <div class="mangaPanel"><span class="panelLabel">SCENE 38 / 金庫の家計簿</span><div class="dialogue">
+            <div class="line"><div class="face"><img src="./winry.png" alt="ウインリー"></div><div class="bubble"><div class="speaker">ウインリー <span class="roleTag">実務サポート</span></div><p>現金出納帳は、金庫の家計簿みたいなものよ。収入、支出、残高を毎回書くの。</p></div></div>
+            <div class="line right"><div class="face"><img src="./edward.png" alt="エドワード"></div><div class="bubble"><div class="speaker">エドワード <span class="roleTag">ツッコミ役</span></div><p>収入と支出だけじゃダメなのか？ 残高まで毎回計算するの面倒くさくねえか。</p></div></div>
+            <div class="line"><div class="face"><img src="./hughes.png" alt="ヒューズ"></div><div class="bubble"><div class="speaker">ヒューズ <span class="roleTag">先生役</span></div><p>残高こそ本体だ。帳簿の残高と実際の金庫の現金が合っているかを見るために、毎回残高を出す。サボれば月末に地獄を見るぞ。</p></div></div>
+            <div class="line right"><div class="face"><img src="./alphonse.png" alt="アルフォンス"></div><div class="bubble"><div class="speaker">アルフォンス <span class="roleTag">補足役</span></div><p>月末には次月繰越（来月へ引き継ぐ残高）を書いて、二重線で締めるんだね。</p></div></div>
+          </div></div>
+          <div class="flow">
+            <div class="step"><div class="num">1</div><h3>日付</h3><p>現金の出入りがあった日を書く。</p></div>
+            <div class="step"><div class="num">2</div><h3>内容</h3><p>何の入金・支払いかを摘要に書く。</p></div>
+            <div class="step"><div class="num">3</div><h3>収入・支出</h3><p>入った金額、出た金額を分けて書く。</p></div>
+            <div class="step"><div class="num">4</div><h3>残高</h3><p>その行ごとに、今いくら残ったか計算する。</p></div>
+          </div>
+          <div class="dangerPanel"><div class="title">⚠ 現金出納帳の事故</div><p>残高計算を後回しにすると、どの時点でズレたか追えなくなる。現金出納帳は「書くたびに残高」が鉄則だ。</p></div>
+        </section>
+
+        <section class="chapter" id="sec43">
+          <h2>43. 当座預金出納帳：小切手用の銀行口座ノート</h2>
+          <p class="chapterLead">当座預金出納帳は、小切手を振り出すための銀行口座である当座預金の入出金を記録する帳簿だ。</p>
+          <div class="mangaPanel"><span class="panelLabel">SCENE 39 / 小切手口座の記録</span><div class="dialogue">
+            <div class="line"><div class="face"><img src="./edward.png" alt="エドワード"></div><div class="bubble"><div class="speaker">エドワード <span class="roleTag">ツッコミ役</span></div><p>当座預金って、普通の銀行口座と何が違うんだ？</p></div></div>
+            <div class="line right"><div class="face"><img src="./hughes.png" alt="ヒューズ"></div><div class="bubble"><div class="speaker">ヒューズ <span class="roleTag">先生役</span></div><p>当座預金は、小切手や手形の支払いに使う口座だ。商売の決済用口座と考えるといい。だから、入金や小切手振出を正確に記録する必要がある。</p></div></div>
+            <div class="line"><div class="face"><img src="./winry.png" alt="ウインリー"></div><div class="bubble"><div class="speaker">ウインリー <span class="roleTag">実務サポート</span></div><p>現金出納帳と似ているけど、当座借越（残高を超えて銀行から一時的に借りる状態）が絡むとややこしくなるの。</p></div></div>
+            <div class="line right"><div class="face"><img src="./alphonse.png" alt="アルフォンス"></div><div class="bubble"><div class="speaker">アルフォンス <span class="roleTag">補足役</span></div><p>残高欄の借・貸は、取引の左右じゃなくて、今の残高がプラスかマイナスかを見るんだね。</p></div></div>
+          </div></div>
+          <div class="infoGrid">
+            <div class="card"><b>当座預金</b><p>小切手や手形の支払いに使う銀行口座。商売の決済で使われる。</p></div>
+            <div class="card"><b>小切手</b><p>銀行に支払いを依頼する紙。振り出すと当座預金が減る。</p></div>
+            <div class="card"><b>当座預金出納帳</b><p>当座預金の増減と残高を記録する帳簿。</p></div>
+            <div class="card"><b>注意点</b><p>残高欄の借・貸は「今プラスかマイナスか」を表す。</p></div>
+          </div>
+        </section>
+
+        <section class="chapter" id="sec44">
+          <h2>44. 当座借越の罠：借・貸欄は取引方向ではなく残高状態</h2>
+          <p class="chapterLead">当座借越は、当座預金の残高を超えて支払ったときに、銀行が一時的に立て替えてくれる借金状態だ。</p>
+          <div class="mangaPanel"><span class="panelLabel">SCENE 40 / 借越の罠</span><div class="dialogue">
+            <div class="line"><div class="face"><img src="./edward.png" alt="エドワード"></div><div class="bubble"><div class="speaker">エドワード <span class="roleTag">ツッコミ役</span></div><p>残高欄の借とか貸って、仕訳の借方・貸方をそのまま写すんじゃないのか？</p></div></div>
+            <div class="line right"><div class="face"><img src="./hughes.png" alt="ヒューズ"></div><div class="bubble"><div class="speaker">ヒューズ <span class="roleTag">先生役</span></div><p>そこが罠だ。当座預金出納帳の残高欄の借・貸は、今の残高状態を示す。プラスなら借、マイナス、つまり借金状態なら貸だ。</p></div></div>
+            <div class="line"><div class="face"><img src="./alphonse.png" alt="アルフォンス"></div><div class="bubble"><div class="speaker">アルフォンス <span class="roleTag">補足役</span></div><p>マイナス状態の時に入金があったら、まず借金の返済に充てられるんだね。</p></div></div>
+            <div class="line right"><div class="face"><img src="./winry.png" alt="ウインリー"></div><div class="bubble"><div class="speaker">ウインリー <span class="roleTag">実務サポート</span></div><p>取引の借方・貸方と、帳簿の残高欄の借・貸を混同しない。ここで自爆する初心者は多いわ。</p></div></div>
+          </div></div>
+          <div class="dangerPanel"><div class="title">⚠ 当座借越の覚え方</div><p>残高がプラスなら借。残高がマイナスなら貸。入金があっても、まずマイナス残高の穴埋めに使われる。仕訳の左右をそのまま残高欄へ写すな。</p></div>
+        </section>
+
+        <section class="chapter" id="sec45">
+          <h2>45. 小口現金出納帳：現場の小銭管理ノート</h2>
+          <p class="chapterLead">小口現金は、文房具・交通費・切手代など、現場で発生する少額支払いに備えて渡しておく現金だ。</p>
+          <div class="mangaPanel"><span class="panelLabel">SCENE 41 / 現場の小銭管理</span><div class="dialogue">
+            <div class="line"><div class="face"><img src="./winry.png" alt="ウインリー"></div><div class="bubble"><div class="speaker">ウインリー <span class="roleTag">実務サポート</span></div><p>小口現金は、現場に渡しておく小さな財布ね。文房具、交通費、通信費みたいな細かい支払いに使うの。</p></div></div>
+            <div class="line right"><div class="face"><img src="./edward.png" alt="エドワード"></div><div class="bubble"><div class="speaker">エドワード <span class="roleTag">ツッコミ役</span></div><p>小銭なら適当でもよくね？ 金額も小さいだろ。</p></div></div>
+            <div class="line"><div class="face"><img src="./hughes.png" alt="ヒューズ"></div><div class="bubble"><div class="speaker">ヒューズ <span class="roleTag">先生役</span></div><p>少額を甘く見るな。小口現金は細かい支払いが多いから、内訳を分けないと何に使ったか分からなくなる。交通費、通信費、消耗品費などの列に分けて書く。</p></div></div>
+            <div class="line right"><div class="face"><img src="./alphonse.png" alt="アルフォンス"></div><div class="bubble"><div class="speaker">アルフォンス <span class="roleTag">補足役</span></div><p>使った分だけ後で補給する仕組みもあるから、月末の集計が大事なんだね。</p></div></div>
+          </div></div>
+          <div class="infoGrid">
+            <div class="card"><b>小口現金</b><p>部署や現場で少額支払いをするために渡しておく現金。</p></div>
+            <div class="card"><b>支払内訳</b><p>交通費、通信費、消耗品費など、何に使ったかを分ける列。</p></div>
+            <div class="card"><b>補給</b><p>使った分だけ経理部などから現金を補充すること。</p></div>
+            <div class="card"><b>注意点</b><p>支払金額と内訳欄の合計が一致するか確認する。</p></div>
+          </div>
+        </section>
+
+        <section class="chapter" id="sec46">
+          <h2>46. クロスチェック：縦の合計と横の合計を一致させる</h2>
+          <p class="chapterLead">小口現金出納帳では、支払額の合計と、内訳ごとの合計が一致するかを確認する。これがクロスチェックだ。</p>
+          <div class="mangaPanel"><span class="panelLabel">SCENE 42 / 二重確認</span><div class="dialogue">
+            <div class="line"><div class="face"><img src="./edward.png" alt="エドワード"></div><div class="bubble"><div class="speaker">エドワード <span class="roleTag">ツッコミ役</span></div><p>縦の合計と横の合計？ なんか表計算のダンジョンに入ってきた気分だぞ。</p></div></div>
+            <div class="line right"><div class="face"><img src="./winry.png" alt="ウインリー"></div><div class="bubble"><div class="speaker">ウインリー <span class="roleTag">実務サポート</span></div><p>難しく考えなくていいわ。支払額として書いた合計と、交通費・通信費・消耗品費みたいな内訳の合計が同じか確認するだけ。</p></div></div>
+            <div class="line"><div class="face"><img src="./hughes.png" alt="ヒューズ"></div><div class="bubble"><div class="speaker">ヒューズ <span class="roleTag">先生役</span></div><p>合わなければ、どこかに記入漏れか分類ミスがある。帳簿は、合計が一致して初めて信用できる。</p></div></div>
+            <div class="line right"><div class="face"><img src="./alphonse.png" alt="アルフォンス"></div><div class="bubble"><div class="speaker">アルフォンス <span class="roleTag">補足役</span></div><p>等価交換の確認だね。払った総額と、何に使ったかの内訳が一致するかを見るんだ。</p></div></div>
+          </div></div>
+          <div class="dangerPanel"><div class="title">⚠ 小口現金の検算</div><p>支払額の合計と内訳欄の合計が一致しなければ、帳簿として危険。月末の補給前に、縦横の合計を必ず確認する。</p></div>
+        </section>
+
+        <section class="chapter linkList" id="sec47">
+          <h2>47. 今日の5分実践と動画リンク</h2>
+          <p class="chapterLead">今日は「財布ごとに帳簿が違う」ことを確認する。現金・当座預金・小口現金を混ぜるな。</p>
+          <div class="flow">
+            <div class="step"><div class="num">1</div><h3>財布を選ぶ</h3><p>現金、当座預金、小口現金のどれが動いたか確認する。</p></div>
+            <div class="step"><div class="num">2</div><h3>帳簿を選ぶ</h3><p>対応する出納帳を選ぶ。</p></div>
+            <div class="step"><div class="num">3</div><h3>出入りを書く</h3><p>収入・支出、入金・出金、支払内容を書く。</p></div>
+            <div class="step"><div class="num">4</div><h3>残高を見る</h3><p>その行で残高または合計の一致を確認する。</p></div>
+          </div>
+          <div class="promptBox" id="prompt-day4a-cashbooks">以下の取引について、どの出納帳に書くべきか初心者向けに整理して。
+
+【取引】
+ここに取引を書く
+
+【出力形式】
+1. 動いた財布（現金 / 当座預金 / 小口現金）
+2. 使う帳簿
+3. 収入・支出または入金・出金の判断
+4. 残高計算の考え方
+5. 小口現金なら内訳欄の分類
+6. 初心者が間違えやすい点
+7. 鋼の錬金術師風のたとえ
+
+【制約】
+・専門用語にはカッコで意味を添える
+・不明点は推測で断定しない
+・残高確認の重要性を必ず入れる</div>
+          <div class="copyRow"><span>現金・当座預金・小口現金の帳簿判定用プロンプト。</span><button class="copyBtn" data-copy="prompt-day4a-cashbooks">コピー</button></div>
+          <div class="dangerPanel"><div class="title">⚠ 結論</div><p>現金出納帳は金庫、当座預金出納帳は小切手口座、小口現金出納帳は現場の小銭。3つの財布を混ぜず、出入りと残高を毎回確認する。</p></div>
+          <ul>
+            <li>動画1：現金出納帳<br><a href="https://www.youtube.com/watch?v=muHUrvssPXk" target="_blank" rel="noopener noreferrer">https://www.youtube.com/watch?v=muHUrvssPXk</a></li>
+            <li>動画2：当座預金出納帳<br><a href="https://www.youtube.com/watch?v=SMtcz63KdcQ" target="_blank" rel="noopener noreferrer">https://www.youtube.com/watch?v=SMtcz63KdcQ</a></li>
+            <li>動画3：小口現金出納帳<br><a href="https://www.youtube.com/watch?si=lMUN9plZW4N4DwUs&v=WH8KHhXYefE&feature=youtu.be" target="_blank" rel="noopener noreferrer">https://www.youtube.com/watch?si=lMUN9plZW4N4DwUs&v=WH8KHhXYefE&feature=youtu.be</a></li>
+          </ul>
+        </section>
+
+
+
+        <section class="hero" id="day4b-hero" style="margin-top:22px;">
+          <span class="eyebrow">DAY4 BACK / CASH DIFFERENCE & BANK RECONCILIATION FILE</span>
+          <h1>Day4後半｜帳簿と現実がズレたら、現実を基準に記録を直す。</h1>
+          <p class="lead">
+            Day4後半は、小口現金（現場へ渡す少額支払い用の現金）、現金過不足（帳簿と実際の現金がズレた時の仮の科目）、雑損・雑益（原因不明のズレを決算で処理する科目）、
+            銀行勘定調整表（会社の当座預金帳簿と銀行残高のズレを確認する表）をつなげる回だ。
+            共通ルールは「現実 is King」。現実の金額を勝手にいじらず、帳簿側を正しく修正する。
+          </p>
+          <div class="themeStrip">
+            <span class="themePill">🪙 小口現金＝現場の小銭</span>
+            <span class="themePill">⚠️ 現金過不足＝仮の箱</span>
+            <span class="themePill">🧹 雑損・雑益＝決算の最終処理</span>
+            <span class="themePill">🏦 銀行勘定調整表＝銀行との同期</span>
+          </div>
+          <div class="dangerPanel">
+            <div class="title">⚠ TABOO WARNING / 現実の金をいじるな</div>
+            <p>帳簿と現実がズレた時、自腹で穴埋めしたり、多い現金を勝手に抜いたりするのは禁忌だ。実際有高（実際にある現金）を基準に帳簿を合わせ、反対側に現金過不足という仮の箱を置く。その後、原因が分かれば修正し、決算まで不明なら雑損・雑益で消す。</p>
+          </div>
+        </section>
+
+        <section class="chapter" id="sec48">
+          <h2>48. ズレ管理の全体像：等価交換のバグを見つける</h2>
+          <p class="chapterLead">お金の管理では、帳簿上の数字と現実の金額がズレることがある。大事なのは、現実を基準にして、なぜズレたのかを整理することだ。</p>
+          <div class="mangaPanel"><span class="panelLabel">SCENE 43 / 等価交換のバグ</span><div class="dialogue">
+            <div class="line"><div class="face"><img src="./edward.png" alt="エドワード"></div><div class="bubble"><div class="speaker">エドワード <span class="roleTag">ツッコミ役</span></div><p>帳簿と現実がズレるって、要するに等価交換がバグったってことだろ？ その瞬間、終わりじゃねえか。</p></div></div>
+            <div class="line right"><div class="face"><img src="./hughes.png" alt="ヒューズ"></div><div class="bubble"><div class="speaker">ヒューズ <span class="roleTag">先生役</span></div><p>終わりではない。ズレた時の処理ルールがある。現金なら現金過不足、決算まで原因不明なら雑損・雑益、銀行とのズレなら銀行勘定調整表だ。</p></div></div>
+            <div class="line"><div class="face"><img src="./winry.png" alt="ウインリー"></div><div class="bubble"><div class="speaker">ウインリー <span class="roleTag">実務サポート</span></div><p>工具の実物数と管理表がズレた時と同じよ。まず実物を数える。次に記録を合わせる。最後に原因を探すの。</p></div></div>
+            <div class="line right"><div class="face"><img src="./alphonse.png" alt="アルフォンス"></div><div class="bubble"><div class="speaker">アルフォンス <span class="roleTag">補足役</span></div><p>現実を勝手に変えちゃダメなんだね。記録を現実に合わせて、原因を調べるんだ。</p></div></div>
+          </div></div>
+          <div class="infoGrid">
+            <div class="card"><b>現金過不足</b><p>帳簿残高と実際有高がズレた時に、一時的に使う仮の科目。</p></div>
+            <div class="card"><b>雑損・雑益</b><p>決算まで原因不明だったズレを処理する科目。足りなければ雑損、多ければ雑益。</p></div>
+            <div class="card"><b>銀行勘定調整表</b><p>会社側の当座預金帳簿と銀行側の残高証明書のズレを整理する表。</p></div>
+            <div class="card"><b>共通ルール</b><p>現実を基準に、帳簿を修正する。自腹や勝手な抜き取りで現実をいじらない。</p></div>
+          </div>
+        </section>
+
+        <section class="chapter" id="sec49">
+          <h2>49. 小口現金と定額資金前渡法：現場へ小銭を預ける</h2>
+          <p class="chapterLead">小口現金は、交通費・切手代・文房具代などの少額支払い用に、現場へ渡しておく現金だ。定額資金前渡法では、一定額を渡しておき、使った分をあとで補給する。</p>
+          <div class="mangaPanel"><span class="panelLabel">SCENE 44 / 現場の弟子へ素材を渡す</span><div class="dialogue">
+            <div class="line"><div class="face"><img src="./winry.png" alt="ウインリー"></div><div class="bubble"><div class="speaker">ウインリー <span class="roleTag">実務サポート</span></div><p>小口現金は、現場に渡しておく小さな財布ね。毎回経理へ申請すると遅いから、少額支払い用にあらかじめ渡しておくの。</p></div></div>
+            <div class="line right"><div class="face"><img src="./edward.png" alt="エドワード"></div><div class="bubble"><div class="speaker">エドワード <span class="roleTag">ツッコミ役</span></div><p>じゃあ現場で使った瞬間に、経理の帳簿へ仕訳するのか？</p></div></div>
+            <div class="line"><div class="face"><img src="./hughes.png" alt="ヒューズ"></div><div class="bubble"><div class="speaker">ヒューズ <span class="roleTag">先生役</span></div><p>定額資金前渡法では、現場が使った瞬間ではなく、報告を受けた時に経理が仕訳する。報告が来て初めて、交通費や通信費などに分類する。</p></div></div>
+            <div class="line right"><div class="face"><img src="./alphonse.png" alt="アルフォンス"></div><div class="bubble"><div class="speaker">アルフォンス <span class="roleTag">補足役</span></div><p>現場は使った内容を記録して、経理へ報告する。経理はその報告をもとに仕訳するんだね。</p></div></div>
+          </div></div>
+          <div class="flow"><div class="step"><div class="num">1</div><h3>前渡</h3><p>経理が現場へ一定額の小口現金を渡す。</p></div><div class="step"><div class="num">2</div><h3>支払</h3><p>現場が交通費や文房具代などを支払う。</p></div><div class="step"><div class="num">3</div><h3>報告</h3><p>現場が何に使ったかを経理へ報告する。</p></div><div class="step"><div class="num">4</div><h3>補給</h3><p>経理が使った分を仕訳し、必要に応じて補給する。</p></div></div>
+          <div class="dangerPanel"><div class="title">⚠ 小口現金の注意</div><p>小口現金は、現場が使った瞬間ではなく、経理が報告を受けた時に仕訳する流れを押さえる。報告漏れは帳簿と現実のズレにつながる。</p></div>
+        </section>
+
+        <section class="chapter" id="sec50">
+          <h2>50. 現金過不足：原因調査中の仮の箱</h2>
+          <p class="chapterLead">現金過不足は、帳簿上の現金残高と実際に数えた現金が合わない時に使う仮の科目だ。原因が分かるまでの一時避難所として使う。</p>
+          <div class="mangaPanel"><span class="panelLabel">SCENE 45 / 仮の箱</span><div class="dialogue">
+            <div class="line"><div class="face"><img src="./edward.png" alt="エドワード"></div><div class="bubble"><div class="speaker">エドワード <span class="roleTag">ツッコミ役</span></div><p>金庫を数えたら帳簿と合わない。こういう時、自腹で合わせるのが一番早くねえか？</p></div></div>
+            <div class="line right"><div class="face"><img src="./winry.png" alt="ウインリー"></div><div class="bubble"><div class="speaker">ウインリー <span class="roleTag">実務サポート</span></div><p>それはダメ。現実を勝手にいじると、原因が永遠に分からなくなるわ。まず実際の現金に帳簿を合わせるの。</p></div></div>
+            <div class="line"><div class="face"><img src="./hughes.png" alt="ヒューズ"></div><div class="bubble"><div class="speaker">ヒューズ <span class="roleTag">先生役</span></div><p>実際有高が帳簿より少なければ、現金を減らして反対側に現金過不足を置く。多ければ、現金を増やして反対側に現金過不足を置く。</p></div></div>
+            <div class="line right"><div class="face"><img src="./alphonse.png" alt="アルフォンス"></div><div class="bubble"><div class="speaker">アルフォンス <span class="roleTag">補足役</span></div><p>現金過不足は、原因が分かるまでのダミー科目なんだね。ずっと残しておくものではないんだ。</p></div></div>
+          </div></div>
+          <div class="infoGrid"><div class="card"><b>帳簿より実際が少ない</b><p>現金を実際の金額まで減らし、反対側に現金過不足を置く。</p></div><div class="card"><b>帳簿より実際が多い</b><p>現金を実際の金額まで増やし、反対側に現金過不足を置く。</p></div><div class="card"><b>現金過不足</b><p>原因が分かるまで使う仮の科目。最終的には消す。</p></div><div class="card"><b>鉄則</b><p>実際 is King。現実の現金を基準に帳簿側を合わせる。</p></div></div>
+        </section>
+
+        <section class="chapter" id="sec51">
+          <h2>51. 雑損・雑益：決算で仮の箱を消す</h2>
+          <p class="chapterLead">現金過不足の原因が決算日まで分からない場合は、雑損または雑益で処理する。仮の科目を翌期へ持ち越さない。</p>
+          <div class="mangaPanel"><span class="panelLabel">SCENE 46 / 最終検査</span><div class="dialogue">
+            <div class="line"><div class="face"><img src="./alphonse.png" alt="アルフォンス"></div><div class="bubble"><div class="speaker">アルフォンス <span class="roleTag">補足役</span></div><p>現金過不足の原因が分からないまま決算日になったら、どうするの？</p></div></div>
+            <div class="line right"><div class="face"><img src="./hughes.png" alt="ヒューズ"></div><div class="bubble"><div class="speaker">ヒューズ <span class="roleTag">先生役</span></div><p>決算では仮の箱を残せない。足りないままなら雑損、つまり原因不明の損失。多いままなら雑益、つまり原因不明の利益として処理する。</p></div></div>
+            <div class="line"><div class="face"><img src="./edward.png" alt="エドワード"></div><div class="bubble"><div class="speaker">エドワード <span class="roleTag">ツッコミ役</span></div><p>諦めるのも処理のうちってことか。仮の箱を来年まで持ち越したら査察で爆発するな。</p></div></div>
+            <div class="line right"><div class="face"><img src="./winry.png" alt="ウインリー"></div><div class="bubble"><div class="speaker">ウインリー <span class="roleTag">実務サポート</span></div><p>決算日当日にズレを見つけた場合は、現金過不足を挟まず、最初から雑損・雑益で処理するショートカットもあるわ。</p></div></div>
+          </div></div>
+          <div class="dangerPanel"><div class="title">⚠ 決算日のルール</div><p>現金過不足は仮の箱。決算では残さない。足りないなら雑損、多いなら雑益。決算日当日に見つけたズレは、現金過不足を挟まず直接雑損・雑益で処理する。</p></div>
+        </section>
+
+        <section class="chapter" id="sec52">
+          <h2>52. 銀行勘定調整表：中央司令部との記録の同期</h2>
+          <p class="chapterLead">銀行勘定調整表は、会社側の当座預金帳簿と銀行側の残高証明書が合わない時に、原因を整理して一致させるための表だ。</p>
+          <div class="mangaPanel"><span class="panelLabel">SCENE 47 / 中央司令部との同期</span><div class="dialogue">
+            <div class="line"><div class="face"><img src="./edward.png" alt="エドワード"></div><div class="bubble"><div class="speaker">エドワード <span class="roleTag">ツッコミ役</span></div><p>会社の帳簿と銀行の残高が合わないって、どっちかが間違ってるってことか？</p></div></div>
+            <div class="line right"><div class="face"><img src="./hughes.png" alt="ヒューズ"></div><div class="bubble"><div class="speaker">ヒューズ <span class="roleTag">先生役</span></div><p>必ずしもミスとは限らない。時間差でズレることもある。たとえば時間外預入や未取立小切手は、会社は処理済みでも銀行側がまだ処理していない状態だ。</p></div></div>
+            <div class="line"><div class="face"><img src="./alphonse.png" alt="アルフォンス"></div><div class="bubble"><div class="speaker">アルフォンス <span class="roleTag">補足役</span></div><p>銀行側の処理が遅れているだけなら、会社の帳簿をすぐ直す必要はないんだね。</p></div></div>
+            <div class="line right"><div class="face"><img src="./winry.png" alt="ウインリー"></div><div class="bubble"><div class="speaker">ウインリー <span class="roleTag">実務サポート</span></div><p>でも、連絡未通知や自分の誤記入みたいに会社側の帳簿に問題があるなら、仕訳で直す必要があるの。</p></div></div>
+          </div></div>
+          <div class="infoGrid"><div class="card"><b>時間外預入</b><p>営業時間外に預けたため、会社は処理済みでも銀行側の反映が翌日以降になるズレ。</p></div><div class="card"><b>未取立小切手</b><p>受け取った小切手を銀行に出したが、銀行がまだ取り立てていない状態。</p></div><div class="card"><b>連絡未通知</b><p>銀行で引き落としなどが済んでいるのに、会社側がまだ知らず記帳していない状態。</p></div><div class="card"><b>誤記入</b><p>会社側または銀行側の記録ミス。自分側のミスなら仕訳で直す。</p></div></div>
+        </section>
+
+        <section class="chapter" id="sec53">
+          <h2>53. 仕訳するズレ・しないズレ：誰のせいかを見極める</h2>
+          <p class="chapterLead">銀行勘定調整表では、ズレの原因が会社側なのか、銀行側の時間差なのかを見極める。会社側の修正が必要なものだけ仕訳する。</p>
+          <div class="mangaPanel"><span class="panelLabel">SCENE 48 / 誰のせいかを見極める</span><div class="dialogue">
+            <div class="line"><div class="face"><img src="./edward.png" alt="エドワード"></div><div class="bubble"><div class="speaker">エドワード <span class="roleTag">ツッコミ役</span></div><p>ズレてるなら全部仕訳で直せば早くねえか？</p></div></div>
+            <div class="line right"><div class="face"><img src="./hughes.png" alt="ヒューズ"></div><div class="bubble"><div class="speaker">ヒューズ <span class="roleTag">先生役</span></div><p>それをやると二重計上になる。銀行側の処理遅れなら会社は正しい。直す必要はない。会社側の未記入や誤記入だけ仕訳で直す。</p></div></div>
+            <div class="line"><div class="face"><img src="./winry.png" alt="ウインリー"></div><div class="bubble"><div class="speaker">ウインリー <span class="roleTag">実務サポート</span></div><p>つまり、いじるべきは「自分のノートに問題がある時」だけ。相手の処理待ちは、調整表に書いて様子を見るのね。</p></div></div>
+            <div class="line right"><div class="face"><img src="./alphonse.png" alt="アルフォンス"></div><div class="bubble"><div class="speaker">アルフォンス <span class="roleTag">補足役</span></div><p>銀行勘定調整表は、ズレの原因を整理する地図なんだね。全部を帳簿修正するわけじゃないんだ。</p></div></div>
+          </div></div>
+          <div class="infoGrid"><div class="card"><b>仕訳しないことが多い</b><p>時間外預入、未取立小切手、未取付小切手など、銀行側の処理待ちや時間差。</p></div><div class="card"><b>仕訳する</b><p>連絡未通知、会社側の誤記入、銀行手数料の未記入など、会社側の帳簿を直す必要があるもの。</p></div><div class="card"><b>危険</b><p>時間差のズレまで仕訳で直すと、後で銀行処理が反映された時に二重計上になる。</p></div><div class="card"><b>鉄則</b><p>ズレの原因が「会社側の帳簿にあるか」を見る。会社側なら仕訳、銀行側の時間差なら調整表で整理。</p></div></div>
+          <div class="dangerPanel"><div class="title">⚠ 銀行勘定調整表の核心</div><p>ズレているから全部直す、ではない。誰の記録を直すべきかを判断する。会社側の帳簿だけが修正対象だ。</p></div>
+        </section>
+
+        <section class="chapter linkList" id="sec54">
+          <h2>54. 今日の5分実践と動画リンク</h2>
+          <p class="chapterLead">今日は「現金のズレ」と「銀行とのズレ」を分けて考える。現実基準、原因調査、仕訳要否の3点を押さえる。</p>
+          <div class="flow"><div class="step"><div class="num">1</div><h3>現実確認</h3><p>実際の現金や銀行残高を確認する。</p></div><div class="step"><div class="num">2</div><h3>ズレ発見</h3><p>帳簿と現実の差額を見つける。</p></div><div class="step"><div class="num">3</div><h3>原因分類</h3><p>現金過不足、雑損・雑益、銀行調整のどれかを判断する。</p></div><div class="step"><div class="num">4</div><h3>仕訳判断</h3><p>仕訳するズレか、調整表だけでよいズレか判断する。</p></div></div>
+          <div class="promptBox" id="prompt-day4b-cash-difference">以下の状況について、簿記初心者にも分かるように処理を整理して。
+
+【状況】
+ここに状況を書く
+
+【出力形式】
+1. これは小口現金 / 現金過不足 / 雑損・雑益 / 銀行勘定調整表のどれに関係するか
+2. 実際の金額と帳簿の金額
+3. 現実を基準にどう考えるか
+4. 仕訳が必要か
+5. 仕訳が必要な場合の借方・貸方
+6. 仕訳しない場合の理由
+7. 初心者が間違えやすい点
+8. 鋼の錬金術師風のたとえ
+
+【制約】
+・専門用語にはカッコで意味を添える
+・不明点は推測で断定しない
+・「現実 is King」の考え方を必ず入れる</div>
+          <div class="copyRow"><span>現金過不足・銀行勘定調整表の判断用プロンプト。</span><button class="copyBtn" data-copy="prompt-day4b-cash-difference">コピー</button></div>
+          <div class="dangerPanel"><div class="title">⚠ 結論</div><p>帳簿と現実がズレたら、現実を基準にする。現金のズレは現金過不足、決算で不明なら雑損・雑益。銀行とのズレは原因を分け、会社側の帳簿に問題がある時だけ仕訳する。</p></div>
+          <ul>
+            <li>動画1：小口現金<br><a href="https://youtu.be/PvlpEKhTuv4?si=Wf-gITMO9szsYtOy" target="_blank" rel="noopener noreferrer">https://youtu.be/PvlpEKhTuv4?si=Wf-gITMO9szsYtOy</a></li>
+            <li>動画2：現金過不足<br><a href="https://www.youtube.com/watch?v=ftgPhQplnlw" target="_blank" rel="noopener noreferrer">https://www.youtube.com/watch?v=ftgPhQplnlw</a></li>
+            <li>動画3：雑損・雑益<br><a href="https://youtu.be/PN8sp-eY7fc?si=zcypD6a0_XCa23fw" target="_blank" rel="noopener noreferrer">https://youtu.be/PN8sp-eY7fc?si=zcypD6a0_XCa23fw</a></li>
+            <li>動画4：銀行勘定調整表<br><a href="https://youtu.be/xSeUTCc_l84?si=7o-BxymPOcTpTioJ" target="_blank" rel="noopener noreferrer">https://youtu.be/xSeUTCc_l84?si=7o-BxymPOcTpTioJ</a></li>
+          </ul>
+        </section>
+
+
         <footer>
-          <div>Day1前半・後半 / Day2前半・後半 / Day3前半・後半｜漫画UI版 / 錬金術式AI育成ファイル</div>
+          <div>Day1前半・後半 / Day2前半・後半 / Day3前半・後半 / Day4前半・後半｜漫画UI版 / 錬金術式AI育成ファイル</div>
           <div>static HTML / local PNG / left-right speech bubbles / standing character rail / taboo warning panel / closed dropdown menus</div>
         </footer>
       </div>
@@ -2020,7 +2336,7 @@
 
       <div class="mission">
         <b>MISSION</b><br>
-        AI・Canva・会計ソフトは速い。だが、帳簿の流れ・規約確認・最終責任は人間が持つ。
+        AI・Canva・会計ソフトは速い。だが、現実照合・規約確認・最終責任は人間が持つ。
       </div>
     </aside>
   </div>
